@@ -10,7 +10,6 @@ import config from 'config';
 import logger from './utils/logger';
 
 import routes from './routes/routes.json';
-import indexRouter from './routes/index';
 import hobbyRouter from './routes/hobby';
 import providerRouter from './routes/provider';
 import userRouter from './routes/user';
@@ -40,6 +39,18 @@ app.use(cookieParser());
 app.use(fileUpload());
 */
 
+// CORS headers enabling
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+
+    app.options('*', (req, res) => {
+         res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+         res.send();
+    });
+})
+
 app.use(expressSession({
   secret: 'pugs do drugs',
   resave: false,
@@ -60,7 +71,6 @@ app.listen(LISTENING_PORT, () => {
 });
 
 // routes
-app.use(routes.index, indexRouter);
 app.use(routes.hobby, hobbyRouter);
 app.use(routes.provider, providerRouter);
 app.use(routes.user, userRouter);
