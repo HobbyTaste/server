@@ -23,6 +23,7 @@ function stop_nginx() {
 }
 [[ ! -f .balancer ]] && mkdir .balancer
 nginx -c nginx/dev.nginx.conf -p $PWD
+echo "nginx balancer started on port 8800"
 
 # Set exit handlers
 function exit_handler() {
