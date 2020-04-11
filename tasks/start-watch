@@ -3,14 +3,32 @@
 CONTAINER=hobbytaste_mongodb
 
 echo "Setting up DB..."
-trap './tasks/cleanup $CONTAINER' EXIT
+function cleanup_container() {
+    ./tasks/cleanup $CONTAINER;
+}
 if ! docker start $CONTAINER 2>/dev/null
 then
-	docker pull mongo >/dev/null
-        docker run -dp 27017:27017 --name $CONTAINER mongo >/dev/null
-	echo DB container $CONTAINER
+    docker pull mongo >/dev/null
+    docker run -dp 27017:27017 --name $CONTAINER mongo >/dev/null
+
+    echo DB container $CONTAINER
 fi
+
 echo "Loading fixtures..."
 node tasks/fixtures.js >/dev/null
+
+echo "Starting nginx balancer..."
+function stop_nginx() {
+    nginx -c nginx/dev.nginx.conf -p $PWD -s stop;
+}
+[[ ! -f .balancer ]] && mkdir .balancer
+nginx -c nginx/dev.nginx.conf -p $PWD
+
+# Set exit handlers
+function exit_handler() {
+    cleanup_container; stop_nginx 2>/dev/null;
+}
+trap exit_handler EXIT
+
 echo "Running server..."
 NODE_APP_INSTANCE=secrets NODE_ENV=development ts-node-dev --project server/tsconfig.json --clear --respawn --transpileOnly ./server/app.ts
