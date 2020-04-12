@@ -17,17 +17,9 @@ fi
 echo "Loading fixtures..."
 node tasks/fixtures.js >/dev/null
 
-echo "Starting nginx balancer..."
-function stop_nginx() {
-    nginx -c nginx/dev.nginx.conf -p $PWD -s stop;
-}
-[[ ! -f .balancer ]] && mkdir .balancer
-nginx -c nginx/dev.nginx.conf -p $PWD
-echo "nginx balancer started on port 8800"
-
 # Set exit handlers
 function exit_handler() {
-    cleanup_container; stop_nginx 2>/dev/null;
+    cleanup_container;
 }
 trap exit_handler EXIT
 
