@@ -1,9 +1,0 @@
-#!/bin/bash
-
-curr_path="$PWD"
-
-cd ${FRONT_PATH}
-ln -sf ${curr_path}/node_modules node_modules
-NODE_ENV=production webpack $@
-cd ${curr_path}
-ln -sf ${FRONT_PATH}/dist dist
