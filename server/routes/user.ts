@@ -35,7 +35,11 @@ userRouter.post('/login', async (req: Request, res: Response) => {
       if (req.session) {
           req.session.user = user;
       }
-      res.redirect(`${BASE_URL}/cabinet`);
+      if (process.env.NODE_ENV === 'test') {
+        res.status(200).send('Вход успешно выполнен');
+      } else {
+        res.redirect(`${BASE_URL}/cabinet`);
+      }
       return;
   }
   res.status(400).json({
@@ -66,7 +70,11 @@ userRouter.post('/create', upload.single('avatar'), async (req: Request, res: Re
     }
     try {
         await newUser.save();
-        res.redirect(USER_URL_PAGES.cabinet);
+        if (process.env.NODE_ENV === 'test') {
+          res.status(200).send('Пользователь успешно создан');
+        } else {
+          res.redirect(USER_URL_PAGES.cabinet);
+        }
     } catch (e) {
         res.status(500).send(e);
     }
