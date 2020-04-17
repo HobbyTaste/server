@@ -6,3 +6,4 @@ yarn-error.log
 config/default-secrets.yaml
 *.tar.gz
 *.log
+.balancer

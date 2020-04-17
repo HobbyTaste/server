@@ -8,6 +8,9 @@ const fixtures = new Fixtures({
 const config = require('config');
 dbHost = config.get('dbHost');
 
+// Sleep in order to prevent race condition with database loading
+(new Promise(r => setTimeout(r, 1000))).then(() => {});
+
 fixtures
 	.connect(dbHost, {
 		useUnifiedTopology: true,
