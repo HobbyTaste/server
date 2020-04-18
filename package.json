@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_APP_INSTANCE=secrets NODE_ENV=production node server/build/app.js",
-    "start:watch": "./tasks/start-db && ./tasks/start-watch",
+    "start:watch": "./tasks/start-watch",
     "build": "NODE_ENV=production tsc --project server/tsconfig.json",
     "lint": "./tasks/lint-staging",
     "lint:all": "yarn eslint server/ static/",
