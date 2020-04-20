@@ -14,5 +14,5 @@ dbHost = dbHost.replace(/{dbPassword}/, dbPassword);
 export const init = async (app: express.Application) => {
     mongooseLoader();
     expressLoader(app);
-    return app
+    return app;
 }

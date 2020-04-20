@@ -9,6 +9,6 @@ export default async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        logger.info(`Connect to mongoDB: success`)
+        logger.info(`Connect to mongoDB: success`);
     } catch (e) {}
 }
