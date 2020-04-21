@@ -3,6 +3,7 @@ import "mocha";
 import shell from "shelljs";
 import chaiHttp from "chai-http";
 import mongoose from "mongoose";
+import nock from "nock";
 
 import { IHobby } from "../models/hobby";
 import { IProvider } from "../models/provider";
@@ -21,6 +22,14 @@ describe("Work with user and hobbies", function() {
 
     before(() => {
         shell.exec("node tasks/fixtures.js >/dev/null");
+        nock(/http:\/\/127.0.0.1:\d+/, { allowUnmocked: true })
+            .persist()
+            .get("/restapi/user/cabinet")
+            .reply(200, "Nock притворяется, что пользователь успешно зашёл в кабинет");
+    });
+
+    after(() => {
+        nock.cleanAll();
     });
 
     it("should create user", async () => {

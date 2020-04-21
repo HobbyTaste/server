@@ -31,11 +31,7 @@ providerRouter.post('/create', upload.single('avatar'), async (req: Request, res
     }
     try {
         await newProvider.save();
-        if (process.env.NODE_ENV === 'test') {
-            res.status(200).send('Пользователь успешно создан');
-        } else {
-            res.redirect('/provider/cabinet');
-        }
+        res.redirect('/provider/cabinet');
     } catch (e) {
         res.status(500).send(e);
     }
@@ -60,11 +56,7 @@ providerRouter.post('/login', async (req: Request, res: Response) => {
         if (req.session) {
             req.session.provider = provider;
         }
-        if (process.env.NODE_ENV === 'test') {
-            res.status(200).send('Вход успешно выполнен');
-        } else {
-            res.redirect('/provider/cabinet');
-        }
+        res.redirect('/provider/cabinet');
         return;
     }
     res.status(400).json({

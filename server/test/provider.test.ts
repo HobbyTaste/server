@@ -2,6 +2,7 @@ import chai from "chai";
 import "mocha";
 import chaiHttp from "chai-http";
 import shell from "shelljs";
+import nock from "nock";
 
 import Hobby, { IHobby } from "../models/hobby";
 import Provider, { IProvider } from "../models/provider";
@@ -19,9 +20,17 @@ describe("Work with provider and add hobby", function() {
 
     before(() => {
         shell.exec("node tasks/fixtures.js >/dev/null");
+        nock(/http:\/\/127.0.0.1:\d+/, {allowUnmocked: true})
+            .persist()
+            .get("/provider/cabinet")
+            .reply(200, "Nock притворяется, что партнёр успешно зашёл в кабинет");
     });
 
-    it("should create provider", async () => {
+    after(() => {
+        nock.cleanAll();
+    });
+
+    it("should create provider", async () => {    
         await utils.create_provider(providers[0]);
     });
 
