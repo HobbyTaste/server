@@ -56,7 +56,7 @@ providerRouter.post('/login', async (req: Request, res: Response) => {
         if (req.session) {
             req.session.provider = provider;
         }
-        res.redirect(`/provider/cabinet`);
+        res.redirect('/provider/cabinet');
         return;
     }
     res.status(400).json({
