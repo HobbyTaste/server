@@ -1,7 +1,6 @@
 {
-  "index": "/",
-  "user": "/user",
-  "hobby": "/hobby",
-  "provider": "/provider",
-  "comment": "/comment"
+  "user": "/restapi/user",
+  "hobby": "/restapi/hobby",
+  "provider": "/restapi/provider",
+  "comment": "/restapi/comment"
 }

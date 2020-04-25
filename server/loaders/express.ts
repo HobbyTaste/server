@@ -5,9 +5,7 @@ import expressSession from 'express-session';
 import routes from "../routes/routes.json";
 import csrf from 'csurf';
 import connectMongo from 'connect-mongo';
-
 import logger from "../utils/logger";
-import indexRouter from "../routes";
 import hobbyRouter from "../routes/hobby";
 import providerRouter from "../routes/provider";
 import userRouter from "../routes/user";
@@ -37,7 +35,6 @@ export default async (app: express.Application) => {
     }));
     app.use('/public/images', express.static('images'));
 
-    app.use(routes.index, indexRouter);
     app.use(routes.hobby, hobbyRouter);
     app.use(routes.provider, providerRouter);
     app.use(routes.user, userRouter);

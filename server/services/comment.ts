@@ -22,8 +22,11 @@ export default class CommentService {
         const author = CommentFields.author?.type === Participants.user
             ? await this.User.findById(CommentFields.author.id)
             : await this.Provider.findById(CommentFields.author?.id);
-        if (!hobby || !author) {
-            throw {status: 404, message: 'Не найдено такого элемента'};
+        if (!hobby) {
+            throw {status: 404, message: 'Хобби не найдено'};
+        }
+        if (!author) {
+            throw {status: 404, message: 'Пользователь не найден'};
         }
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();

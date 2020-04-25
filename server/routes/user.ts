@@ -1,17 +1,12 @@
 import {Response, Request, Router} from 'express';
 import multer from 'multer';
 import config from 'config';
-import {user as BASE_URL} from './routes.json';
 import UserService from "../services/user";
 import {User, Provider, Comment, Hobby} from '../models'
 
 
 const userRouter: Router = Router();
 const UserServiceInstance = new UserService(Hobby, User, Provider, Comment);
-
-const USER_URL_PAGES = {
-    cabinet: `${BASE_URL}/cabinet`
-};
 
 const upload = multer({limits: {fieldSize: Number(config.get('aws.maxFileSize'))}});
 
@@ -25,7 +20,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
         if (req.session) {
             req.session.user = await UserServiceInstance.LoginUser(email, password);
         }
-        res.redirect(`${BASE_URL}/cabinet`);
+        res.status(200).send();
     } catch (e) {
         if (e.status && e.message) {
             res.status(e.status).send(e.message)
@@ -43,7 +38,7 @@ userRouter.post('/create', upload.single('avatar'), async (req: Request, res: Re
         if (req.session) {
             req.session.user = newUser;
         }
-        res.redirect(USER_URL_PAGES.cabinet);
+        res.status(200).send();
     } catch (e) {
         if (e.status && e.message) {
             res.status(e.status).send(e.message)

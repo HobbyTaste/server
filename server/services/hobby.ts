@@ -22,7 +22,7 @@ export default class HobbyService {
     async GetComments(hobbyId: string) {
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Не найдено такого элемента'};
+            throw {status: 404, message: 'Хобби не найдено'};
         }
         const comments = await hobby.userComments();
         const result = comments.map((comment: IComment) => comment.repr());
@@ -35,7 +35,7 @@ export default class HobbyService {
             hobbyInfo.avatar = await uploadFileToS3('hobbies', file);
         }
         const newHobby = new this.Hobby({...hobbyInfo, providerId});
-        newHobby.save();
+        return newHobby.save();
     }
 
     async FindByLabel(hobbyInfo: Partial<IHobby>) {
@@ -64,10 +64,9 @@ export default class HobbyService {
     async Subscribe(hobbyId: string, userId: string) {
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Не найдено такого элемента'}
+            throw {status: 404, message: 'Хобби не найдено'}
         }
         const nextSubscribers = hobby.subscribers.concat(userId);
-        this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers})
+        return this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers})
     }
 }
-
