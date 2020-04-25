@@ -1,4 +1,4 @@
-# Hobby-Time frontend
+# Hobby-Time backend ![](https://github.com/HobbyTaste/backend/workflows/tests/badge.svg)
 Текущюю версию сайта в проде можно посмотреть здесь: https://htaste.herokuapp.com/
 
 ## Содержание
