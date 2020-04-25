@@ -1,0 +1,22 @@
+version: "3"
+services:
+    backend:
+        image: back:latest
+        container_name: backend
+        networks:
+            - app-network
+    frontend:
+        image: front:latest
+        container_name: frontend
+        networks:
+            - app-network
+    nginx:
+        build: ./nginx
+        networks:
+            - app-network
+        ports:
+            - "8800:8800"
+
+networks:
+    app-network:
+        driver: bridge

@@ -148,7 +148,7 @@ userRouter.get('/subscribe', async (req: Request, res: Response) => {
              return;
          }
          const {hobbies, _id: userId} = req.session.user;
-         const nextHobbies = [...new Set(hobbies.concat(hobbyId))];
+         const nextHobbies : string[] = Array.from(new Set(hobbies.concat(hobbyId)));
          const nextSubscribers = [...new Set(hobbyToUpdate.subscribers.concat(userId))];
          await Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers});
          req.session.user = await User.findByIdAndUpdate(userId, {hobbies: nextHobbies}, {new: true});
