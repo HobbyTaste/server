@@ -1,5 +1,6 @@
 {
   "user": "/restapi/user",
   "hobby": "/restapi/hobby",
-  "provider": "/restapi/provider"
+  "provider": "/restapi/provider",
+  "comment": "/restapi/comment"
 }

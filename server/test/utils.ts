@@ -3,9 +3,10 @@ import "mocha";
 import chaiHttp from "chai-http";
 
 import server from "../app";
-import User, { IUser } from "../models/user";
-import Hobby, { IHobby } from "../models/hobby";
-import Provider, { IProvider } from "../models/provider";
+import {Hobby, User, Provider} from "../models";
+import {IProvider} from '../types/provider';
+import {IUser} from "../types/user";
+import {IHobby} from "../types/hobby";
 import nock from "nock";
 
 const assert: Chai.AssertStatic = chai.assert;
