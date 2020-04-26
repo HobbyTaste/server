@@ -34,7 +34,7 @@ export default class HobbyService {
         if (file) {
             hobbyInfo.avatar = await uploadFileToS3('hobbies', file);
         }
-        const newHobby = new this.Hobby({...hobbyInfo, providerId});
+        const newHobby = new this.Hobby({...hobbyInfo, owner: providerId});
         return newHobby.save();
     }
 
