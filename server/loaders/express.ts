@@ -15,7 +15,14 @@ import {dbHost} from "./index";
 
 export default async (app: express.Application) => {
     app.use(express.json());
-    app.use(morgan('dev'));
+    if (process.env.NODE_ENV !== 'test') {
+        app.use(morgan('dev'));
+    } else {
+        console.log = () => {};
+        console.warn = () => {};
+        console.info = () => {};
+        console.error = () => {};
+    }
     app.use(express.urlencoded({extended: true}));
     app.use(cookieParser());
 
@@ -36,9 +43,9 @@ export default async (app: express.Application) => {
     app.use('/public/images', express.static('images'));
 
     app.use(routes.hobby, hobbyRouter);
+    app.use(routes.comment, commentRouter);
     app.use(routes.provider, providerRouter);
     app.use(routes.user, userRouter);
-    app.use(routes.comment, commentRouter);
 
     app.use((err: any, req: Request, res: Response, next: NextFunction) => {
         if (err.code === 'EBADCSRFTOKEN') {

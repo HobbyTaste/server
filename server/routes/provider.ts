@@ -18,7 +18,7 @@ providerRouter.post('/create', upload.single('avatar'), async (req: Request, res
         if (req.session) {
             req.session.provider = newProvider;
         }
-        res.redirect('/provider/cabinet');
+        res.status(200).send();
     } catch (e) {
         if (e.status && e.message) {
             res.status(e.status).send(e.message);
@@ -38,7 +38,7 @@ providerRouter.post('/login', async (req: Request, res: Response) => {
         if (req.session) {
             req.session.provider = await ProviderServiceInstance.LoginProvider(email, password);
         }
-        res.redirect(`/provider/cabinet`);
+        res.status(200).send();
     } catch (e) {
         if (e.status && e.message) {
             res.status(e.status).send(e.message)

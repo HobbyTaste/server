@@ -2,22 +2,12 @@
 
 CONTAINER=hobbytaste_mongodb
 
-echo "Setting up DB..."
 function cleanup_container() {
     ./tasks/cleanup $CONTAINER;
 }
-if ! docker start $CONTAINER 2>/dev/null
-then
-    docker pull mongo >/dev/null
-    docker run -dp 27017:27017 --name $CONTAINER mongo >/dev/null
-
-    echo DB container $CONTAINER
-fi
-
-echo "Loading fixtures..."
-node tasks/fixtures.js >/dev/null
 
 # Set exit handlers
+# Any other exit handler may be added to this function
 function exit_handler() {
     cleanup_container;
 }

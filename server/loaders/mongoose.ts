@@ -5,10 +5,9 @@ import {dbHost} from "./index";
 
 export default async () => {
     try {
-        await mongoose.connect(dbHost, {
+        mongoose.connect(dbHost, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        });
-        logger.info(`Connect to mongoDB: success`);
+        }).catch(logger.error);
     } catch (e) {}
 }
