@@ -1,0 +1,25 @@
+name: tests
+
+on: push
+
+jobs:
+  routes-tests:
+    name: Routes tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run tests
+        run: yarn test
+        env:
+          DB_USER: "no user, it's just a plug"
+          DB_PASSWORD: "no password, it's also just a plug"
