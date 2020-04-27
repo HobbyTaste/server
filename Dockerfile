@@ -3,10 +3,10 @@ FROM node:12
 WORKDIR /app
 
 COPY package.json ./
+COPY yarn.lock ./
 
-RUN ["yarn"]
+RUN yarn
 
 COPY . .
 
-RUN ["yarn", "build"]
-CMD ["yarn", "start"]
+CMD yarn start
