@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "NODE_APP_INSTANCE=secrets NODE_ENV=production node server/build/app.js",
+    "start": "NODE_APP_INSTANCE=secrets NODE_ENV=production ts-node server/app.ts",
     "start:watch": "./tasks/start-db && ./tasks/start-watch",
-    "build": "NODE_ENV=production tsc --project server/tsconfig.json",
     "lint": "./tasks/lint-staging",
     "lint:all": "yarn eslint server/ static/",
     "test": "./tasks/test"
