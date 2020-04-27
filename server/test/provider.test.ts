@@ -70,7 +70,7 @@ describe("Work with provider and add hobby", function() {
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
         const { password, ...data_rest_props } = providers[0];
-        const { id, __v, ...rest_props } = res.body;
+        const { id, __v, comments, ...rest_props } = res.body;
         assert.deepEqual<Partial<IProvider>>(rest_props, data_rest_props, "Wrong info about provider");
     });
 
@@ -86,7 +86,7 @@ describe("Work with provider and add hobby", function() {
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
         const data_rest_props = (({ password, ...rest }) => rest)(providers[1]);
-        const rest_props = (({ _id, __v, password, ...rest }) => rest)(res.body._doc);
+        const rest_props = (({ _id, __v, comments, password, ...rest }) => rest)(res.body._doc);
         assert.deepEqual<Partial<IProvider>>(rest_props, data_rest_props, "Wrong info about other provider");
     });
 

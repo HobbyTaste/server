@@ -55,7 +55,7 @@ export async function create_hobby_adder(hobby: Partial<IHobby>): Promise<void> 
     const res: ChaiHttp.Response = await agent
         .post("/restapi/hobby/add")
         .set("csrf-token", process.env.csrfToken || "")
-        .send(hobby);
+        .send({...hobby, price: {priceList: "plug"}, worktime:[]});
     assert.equal(res.status, HTTP_STATUS.OK, "Hobby was not added to database");
     const { owner, ...rest_props } = hobby;
     const hobbies = await Hobby.find(rest_props);
