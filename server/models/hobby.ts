@@ -1,75 +1,9 @@
-import {Schema, connection as db, Document, Model} from 'mongoose';
+import {connection as db} from 'mongoose';
+import mongoose from 'mongoose'
 import {escapeRegExp} from 'lodash';
-
-const EMAIL_REG_EXP = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-
-export interface IHobby extends Document {
-    label: string,
-    phone?: string,
-    email?: string,
-    address?: string,
-    metroStation?: string,
-    metroId?: string,
-    description: string,
-    shortDescription: string,
-    owner: string,
-    subscribers: string[],
-    category?: string,
-    avatar?: string,
-}
-
-const HobbySchema: Schema = new Schema({
-    label: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    phone: {
-        type: String,
-        trim: true,
-        match: [/^\+\d{11}$/, 'Неверный формат номера телефона']
-    },
-    email: {
-        type: String,
-        trim: true,
-        match: [EMAIL_REG_EXP, 'Неверный формат email'],
-    },
-    address: {
-        type: String,
-        trim: true,
-    },
-    metroStation: {
-        type: String,
-        lowercase: true,
-        trim: true,
-    },
-    metroId: {
-        type: Number,
-    },
-    description: {
-        type: String,
-    },
-    shortDescription: {
-        type: String,
-        maxlength: [500, 'toLongDescription'],
-    },
-    imageUrl: {
-        type: String,
-    },
-    owner: {
-        type: Schema.Types.ObjectId
-    },
-    subscribers: {
-        type: [Schema.Types.ObjectId],
-        default: []
-    },
-    avatar: {
-        type: String,
-    },
-    category: {
-        type: String,
-    }
-});
+import {IHobby, IHobbyModel} from "../types/hobby";
+import HobbySchema from "../schemas/hobby";
+import {IComment, Participants} from "../types/comment";
 
 /**
  * Поиск хобби по названию в БД
@@ -77,7 +11,7 @@ const HobbySchema: Schema = new Schema({
  */
 HobbySchema.statics.findByLabel = function(label: string): Promise<IHobby> {
     return this.find({label: new RegExp(escapeRegExp(label), 'i')});
-};
+}
 
 /**
  * Поиск названию хобби по id-метро
@@ -92,12 +26,40 @@ HobbySchema.statics.findByLabelWithGeo = function(label: string, metroId: number
     });
 };
 
-interface IHobbyModel extends Model<IHobby> {
-    findByLabel: (label: string) => Promise<IHobby[]>,
-    findByLabelWithGeo: (label: string, metroId: number) => Promise<IHobby>
+HobbySchema.methods.userCommentsCount = async function() {
+    const commentIds = this.comments;
+    return mongoose.model('Comment').count({
+        _id: {$in: commentIds},
+        author: {
+            type: Participants.user
+        }
+    })
 }
+
+HobbySchema.methods.updateRating = async function() {
+    let evalSum = 0;
+    let evalCount = 0;
+    for (const commentId of this.comments) {
+        const comment = await mongoose.model('Comment').findById(commentId) as IComment;
+        if (comment?.evaluation) {
+            evalSum += comment.evaluation;
+            evalCount += 1;
+        }
+    }
+    this.rating = evalSum / evalCount;
+};
+
+HobbySchema.methods.userComments = async function() {
+    return await mongoose.model('Comment').find({
+        _id: {$in: this.comments},
+        author: {
+            type: Participants.user
+        }
+    }) as IComment[];
+}
+
 const obj: any = {};
 const {}: IHobbyModel = obj;
 
-const Hobby: IHobbyModel = db.model<IHobby, IHobbyModel>('Hobby', HobbySchema);
+const Hobby = db.model<IHobby, IHobbyModel>('Hobby', HobbySchema);
 export default Hobby;

@@ -5,12 +5,13 @@ import chaiHttp from "chai-http";
 import mongoose from "mongoose";
 import nock from "nock";
 
-import { IHobby } from "../models/hobby";
-import { IProvider } from "../models/provider";
+import {IHobby} from "../types/hobby";
+import {IProvider} from "../types/provider";
+import {IUser} from "../types/user";
 import hobbies from "../fixtures/hobbies.json";
 import users from "./data/users.json";
 import other_data from "./data/other.json";
-import User, { IUser } from "../models/user";
+import User from "../models/user";
 import * as utils from "./utils";
 import { HTTP_STATUS } from "./utils";
 

@@ -3,7 +3,8 @@ import "mocha";
 import chaiHttp from "chai-http";
 import shell from "shelljs";
 
-import Hobby, { IHobby } from "../models/hobby";
+import Hobby from "../models/hobby";
+import {IHobby} from "../types/hobby";
 import hobbies from "../fixtures/hobbies.json";
 import other_data from "./data/other.json";
 import * as utils from "./utils";

@@ -4,8 +4,9 @@ import chaiHttp from "chai-http";
 import shell from "shelljs";
 import nock from "nock";
 
-import Hobby, { IHobby } from "../models/hobby";
-import Provider, { IProvider } from "../models/provider";
+import {Hobby, Provider} from '../models';
+import {IHobby} from "../types/hobby";
+import {IProvider} from "../types/provider";
 import providers from "./data/providers.json";
 import hobbies from "./data/hobbies.json";
 import other_data from "./data/other.json";
@@ -30,7 +31,7 @@ describe("Work with provider and add hobby", function() {
         nock.cleanAll();
     });
 
-    it("should create provider", async () => {    
+    it("should create provider", async () => {
         await utils.create_provider(providers[0]);
     });
 
