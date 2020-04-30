@@ -14,4 +14,4 @@ function exit_handler() {
 trap exit_handler EXIT
 
 echo "Running server..."
-NODE_APP_INSTANCE=secrets NODE_ENV=development ts-node-dev --project server/tsconfig.json --clear --respawn --transpileOnly ./server/app.ts
+NODE_APP_INSTANCE=secrets NODE_ENV=development ts-node-dev --project tsconfig.json --clear --respawn --transpileOnly ./server/app.ts
