@@ -5,8 +5,9 @@
 1. [Настройка окружения и установка необходмых пакетов для разработки (Linux, MacOS)](#settings-env)
 2. [Разработка](#dev-rules)
 3. [Запуск docker-контейнера](#docker)
-4. [Архитектура backend](#backend)
-5. [Локальный запуск на виртуалке](#vagrant)
+4. [Запуск docker-compose для прода](#docker-compose)
+5. [Архитектура backend](#backend)
+6. [Локальный запуск на виртуалке](#vagrant)
 
 <a name="settings-env"></a>
 
@@ -71,6 +72,24 @@ docker build . -t <name_of_docker_image>
 3. Запустим контейнер с пробросом порта, на котором слушает сервер (на текущий момент, 8100)
 ``` shell script
 docker run --rm -p 8100:8100 <name_of_docker_image>
+```
+
+<a name="docker-compose"></a>
+## Запуск docker-compose на production
+Для этой цели в этом репозитории находится конфигурационный файл `docker-compose.yml`. Он запускает в изолированном окружении сервера backend, frontend и nginx-балансер. Это позволяет запускать без дополнительной конфигурации сервис на любой машине.
+
+Для запуска необходимо:
+1. Собрать образ контейнера для backend. Из папки с backend-репозиторием:
+``` shell script
+docker build . -t back
+```
+2. Собрать образ контейнера для frontend. Из папки с frontend-репозиторием:
+``` shell script
+docker build . -t front
+```
+3. Запустить docker-compose из папки с backend-репозиторием:
+``` shell script
+docker-compose up --build
 ```
 
 <a name="backend"></a>
