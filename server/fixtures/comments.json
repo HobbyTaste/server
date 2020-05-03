@@ -1,0 +1,35 @@
+[
+  {
+    "temp_id": 0,
+    "author": {
+      "id": "alice@test.com",
+      "type": 0
+    },
+    "text": "cool!",
+    "datetime": "13.04.2020 13:45",
+    "evaluation": "5",
+    "relatedComment": 1
+  },
+  {
+    "temp_id": 1,
+    "author": {
+      "id": "sport@test.com",
+      "type": 1
+    },
+    "text": "thanks!",
+    "datetime": "14.04.2020 10:02",
+    "evaluation": null,
+    "relatedComment": 0
+  },
+  {
+    "temp_id": 2,
+    "author": {
+      "id": "bob@test.com",
+      "type": 0
+    },
+    "text": "poor maintenance",
+    "datetime": "16.04.2020 16:12",
+    "evaluation": 3,
+    "relatedComment": null
+  }
+]

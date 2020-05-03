@@ -5,7 +5,6 @@ import {IComment} from "./comment";
 export type SocialServices = "vk" | "instagram" | "facebook"
 
 export enum TariffPlans {
-    none,
     top,
     widget,
     poster,

@@ -106,8 +106,7 @@ const HobbySchema: Schema<IHobby> = new Schema({
     monetization: [{
         tariff: {
             type: Number,
-            enum: Object.values(TariffPlans),
-            default: TariffPlans.none
+            enum: Object.values(TariffPlans)
         },
         activationDate: {
             type: String

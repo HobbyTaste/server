@@ -12,8 +12,32 @@
     "owner": "sport@test.com",
     "subscribers": ["alice@test.com", "bob@test.com"],
     "avatar": "",
-    "category": "sport"
+    "category": "sport",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "vk": "vk.com/sport-football",
+      "instagram": "instagram.com/sport-football",
+      "facebook": "facebook.com/sport-football"
+    },
+    "location": "3d floor",
+    "rating": 4.4,
+    "comments": [0, 1],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
   },
+
+
+
   {
     "label": "Уроки фортепиано",
     "phone": "+78008008181",
@@ -27,8 +51,31 @@
     "owner": "music@test.com",
     "subscribers": ["bob@test.com", "caroline@test.com"],
     "avatar": "",
-    "category": "music"
+    "category": "music",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "vk": "vk.com/music-piano",
+      "instagram": "instagram.com/music-piano"
+    },
+    "location": "3d floor",
+    "rating": 4.6,
+    "comments": [2],
+    "parking": false,
+    "equipment": true,
+    "novice": true,
+    "children": true,
+    "facilities": "",
+    "special": "",
+    "price": {
+      "title": 1500,
+      "priceList": "first lesson - free, daily - 300, monthly - 1500"
+    },
+    "monetization": [],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
   },
+
+
+
   {
     "label": "Любительская футбольная команда",
     "phone": "+79009009292",
@@ -42,8 +89,43 @@
     "owner": "sport@test.com",
     "subscribers": [],
     "avatar": "",
-    "category": "sport"
+    "category": "sport",
+    "website": null,
+    "contacts": {
+      "vk": "vk.com/sport-football-team"
+    },
+    "location": "3d floor",
+    "rating": 3.8,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [
+      {
+        "tariff": 0,
+        "activationDate": "22.03.2020",
+        "expirationDate": "22.04.2020",
+        "cost": 1000
+      },
+      {
+        "tariff": 1,
+        "activationDate": "23.03.2020",
+        "expirationDate": "01.04.2020",
+        "cost": 350
+      }
+    ],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
 },
+
+
+
 {
     "label": "Школа танцев",
     "phone": "+79009009393",
@@ -57,8 +139,37 @@
     "owner": "sport@test.com",
     "subscribers": [],
     "avatar": "",
-    "category": "sport"
+    "category": "sport",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "instagram": "instagram.com/sport-dancing"
+    },
+    "location": "3d floor",
+    "rating": 4.0,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [
+      {
+        "tariff": 0,
+        "activationDate": "22.03.2020",
+        "expirationDate": "22.04.2020",
+        "cost": 1000
+      }
+    ],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
 },
+
+
+
 {
     "label": "Игра на барабанах",
     "phone": "+79009009494",
@@ -72,8 +183,30 @@
     "owner": "music@test.com",
     "subscribers": [],
     "avatar": "",
-    "category": "music"
+    "category": "music",
+    "website": null,
+    "contacts": {
+      "facebook": "facebook.com/music-drums"
+    },
+    "location": "3d floor",
+    "rating": null,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
 },
+
+
+
 {
     "label": "Туры на Алтай",
     "phone": "+79009009595",
@@ -87,6 +220,25 @@
     "owner": "travel@test.com",
     "subscribers": [],
     "avatar": "",
-    "category": "travel"
+    "category": "travel",
+    "website": "www.travel-altai.com",
+    "contacts": {
+      "vk": "vk.com/travel-altai"
+    },
+    "location": "3d floor",
+    "rating": 4.9,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
 }
 ]
