@@ -122,6 +122,22 @@ userRouter.get('/hobbies', async (req: Request, res: Response) => {
     }
 });
 
+userRouter.get('/comments', async (req: Request, res: Response) => {
+    if (!req.session?.user) {
+        res.status(400).send('Пользователь не авторизован');
+        return;
+    }
+    try {
+        const comments = await UserServiceInstance.GetComments(req.session.user);
+        if (typeof comments === "string") {
+            throw Error(`failed to find something in database: ${comments}`);
+        }
+        res.json(comments);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
 userRouter.post('/upload', upload.single('avatar'), async (req: Request, res: Response) => {
     if (!req.session?.user) {
         res.status(403).send('Текущий пользователь не прошел авторизацию');

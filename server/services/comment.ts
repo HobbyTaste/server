@@ -39,5 +39,6 @@ export default class CommentService {
         } else {
             await this.Provider.findByIdAndUpdate(CommentFields.author?.id, {comments: nextComments});
         }
+        return nextComments;
     }
 }
