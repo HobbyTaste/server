@@ -36,18 +36,15 @@ HobbySchema.methods.userCommentsCount = async function() {
     })
 }
 
-HobbySchema.methods.updateRating = async function() {
-    let evalSum = 0;
-    let evalCount = 0;
-    for (const commentId of this.comments) {
-        const comment = await mongoose.model('Comment').findById(commentId) as IComment;
-        if (comment?.evaluation) {
-            evalSum += comment.evaluation;
-            evalCount += 1;
-        }
+HobbySchema.methods.addComment = async function(commentId) {
+    const comment = await mongoose.model('Comment').findById(commentId) as IComment;
+    if (comment.evaluation) {
+        const count = await this.userCommentsCount();
+        this.rating = (this.rating * count + comment.evaluation) / (count + 1)
     }
-    this.rating = evalSum / evalCount;
-};
+    this.comments = this.comments.concat(commentId);
+    return await mongoose.model('Hobby').findByIdAndUpdate(this._id, this) as IHobby
+}
 
 HobbySchema.methods.userComments = async function() {
     return await mongoose.model('Comment').find({

@@ -24,7 +24,7 @@ CommentSchema.methods.repr = async function() {
 
     if (this.author.type === Participants.user) {
         if (this.relatedComment) {
-            const answer = await this.model('Comment').findById(this.relatedComment) as IComment;
+            const answer = await mongoose.model('Comment').findById(this.relatedComment) as IComment;
             const provider = await mongoose.model('Provider').findById(answer.author.id) as IProvider;
             answerInfo = {
                 providerId: answer.author.id,
