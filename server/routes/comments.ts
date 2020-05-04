@@ -19,16 +19,11 @@ commentRouter.post('/create', async (req: ICreateCommentRequest, res: Response) 
     try {
         const type = req.session.user ? Participants.user : Participants.provider;
         const {_id: authorId} = type === Participants.user ? req.session.user : req.session.provider;
-        const nextComments = await CommentServiceInstance.CreateComment(req.query.hobbyId, {
+        await CommentServiceInstance.CreateComment(req.query.hobbyId, {
             author: {id: authorId, type},
             ...req.body,
             relatedComment: req.query.relatedId
         });
-        if (type === Participants.user) {
-            req.session.user.comments = nextComments;
-        } else {
-            req.session.provider.comments = nextComments;
-        }
         res.status(200).send();
     } catch (e) {
         if (e.status && e.message) {

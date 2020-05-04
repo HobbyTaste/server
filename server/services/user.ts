@@ -6,6 +6,8 @@ import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
 
+import mongodb from "mongodb";
+
 export default class UserService {
     Hobby: IHobbyModel;
     User: IUserModel;
@@ -86,8 +88,9 @@ export default class UserService {
     }
 
     async GetComments(user: IUser): Promise<ICommentInfo[]> {
-        const {comments: commentIds} = user;
-        const comments =  await this.Comment.find({_id: {$in: commentIds}});
+        // Здесь не просто так стоит "==", а не "===", это не ошибка.
+        // Иначе возникают проблемы из-за того, что user._id - строка, а comment.author.id - ObjectID.
+        const comments = (await this.Comment.find()).filter(comment => comment.author.id == user._id);
         return Promise.all(comments.map(comment => comment.repr()));
     }
 
