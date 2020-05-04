@@ -5,7 +5,6 @@ import {IComment} from "./comment";
 export type SocialServices = "vk" | "instagram" | "facebook"
 
 export enum TariffPlans {
-    none,
     top,
     widget,
     poster,
@@ -47,7 +46,7 @@ export interface IHobby extends Document {
         cost?: number;
     }[]
     workTime: string[];
-    updateRating(): void;
+    addComment(commentId: string): Promise<IHobby>;
     userCommentsCount(): Promise<number>;
     userComments(): Promise<IComment[]>;
 }

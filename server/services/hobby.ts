@@ -26,8 +26,7 @@ export default class HobbyService {
         }
         const comments = await hobby.userComments();
         const result = comments.map((comment: IComment) => comment.repr());
-        await Promise.all(result);
-        return result
+        return Promise.all(result)
     }
 
     async AddHobby(hobbyInfo: Partial<IHobby>, providerId: string, file?: Express.Multer.File) {

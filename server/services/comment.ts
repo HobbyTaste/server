@@ -31,7 +31,7 @@ export default class CommentService {
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();
 
-        await this.Hobby.findByIdAndUpdate(hobbyId, {comments: hobby.comments.concat(commentId)});
+        await hobby.addComment(commentId);
 
         const nextComments = author.comments.concat(commentId);
         if (CommentFields.author?.type === Participants.user) {
