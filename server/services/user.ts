@@ -1,10 +1,11 @@
 import {IHobbyModel} from "../types/hobby";
 import {IUser, IUserInfo, IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
-import {ICommentModel} from "../types/comment";
+import {ICommentModel, ICommentInfo} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
+
 
 export default class UserService {
     Hobby: IHobbyModel;
@@ -83,6 +84,13 @@ export default class UserService {
     async GetHobbies(user: IUser) {
         const {hobbies: hobbyIds} = user;
         return this.Hobby.find({_id: {$in: hobbyIds}});
+    }
+
+    async GetComments(user: IUser): Promise<ICommentInfo[]> {
+        // Здесь не просто так стоит "==", а не "===", это не ошибка.
+        // Иначе возникают проблемы из-за того, что user._id - строка, а comment.author.id - ObjectID.
+        const comments = (await this.Comment.find()).filter(comment => comment.author.id == user._id);
+        return Promise.all(comments.map(comment => comment.repr()));
     }
 
     async AvatarUpload(user: IUser, file?: Express.Multer.File) {

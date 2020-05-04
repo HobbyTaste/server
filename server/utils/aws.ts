@@ -15,6 +15,8 @@ export async function uploadFileToS3(relativePath: string, file: FileType): Prom
     const fileId = uuid();
     const path = `${relativePath}/${fileId}`;
     const bucket: string = config.get('aws.bucket');
+    AWS.config.accessKeyId = config.get('secrets.aws.AWS_ACCESS_KEY_ID');
+    AWS.config.secretAccessKey = config.get('secrets.aws.AWS_SECRET_ACCESS_KEY');
     const params: S3.Types.PutObjectRequest = {
         Bucket: bucket,
         Body: file.buffer,
