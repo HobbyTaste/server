@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
 
-import mongodb from "mongodb";
 
 export default class UserService {
     Hobby: IHobbyModel;
