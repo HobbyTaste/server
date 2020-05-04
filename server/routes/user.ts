@@ -128,11 +128,7 @@ userRouter.get('/comments', async (req: Request, res: Response) => {
         return;
     }
     try {
-        const comments = await UserServiceInstance.GetComments(req.session.user);
-        if (typeof comments === "string") {
-            throw Error(`failed to find something in database: ${comments}`);
-        }
-        res.json(comments);
+        res.json(await UserServiceInstance.GetComments(req.session.user));
     } catch (e) {
         res.status(500).send(e);
     }

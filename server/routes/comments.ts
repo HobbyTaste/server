@@ -24,7 +24,6 @@ commentRouter.post('/create', async (req: ICreateCommentRequest, res: Response) 
             ...req.body,
             relatedComment: req.query.relatedId
         });
-        console.log(nextComments);
         if (type === Participants.user) {
             req.session.user.comments = nextComments;
         } else {

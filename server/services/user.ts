@@ -1,7 +1,7 @@
 import {IHobbyModel} from "../types/hobby";
 import {IUser, IUserInfo, IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
-import {ICommentModel} from "../types/comment";
+import {ICommentModel, ICommentInfo} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
@@ -85,42 +85,10 @@ export default class UserService {
         return this.Hobby.find({_id: {$in: hobbyIds}});
     }
 
-    async GetComments(user: IUser) {
+    async GetComments(user: IUser): Promise<ICommentInfo[]> {
         const {comments: commentIds} = user;
         const comments =  await this.Comment.find({_id: {$in: commentIds}});
-        return Promise.all(comments.map(async comment => {
-            const user = await this.User.findById(comment.author.id);
-            if (!user) {
-                return Promise.reject("no user for comment");
-            }
-            let relatedComment = undefined;
-            if (comment.relatedComment) {
-                relatedComment = await this.Comment.findById(comment.relatedComment);
-                if (!relatedComment) {
-                    return Promise.reject("no related comment found, but there is the id of it")
-                }
-                const provider = await this.Provider.findById(relatedComment?.author.id);
-                if (!provider) {
-                    return Promise.reject("no author of related comment");
-                }
-                relatedComment = {
-                    providerId: provider?._id,
-                    name: provider?.name,
-                    datetime: relatedComment?.datetime,
-                    avatar: provider?.avatar,
-                    text: relatedComment?.text
-                }
-            }
-            return {
-                userId: user._id,
-                name: user.name,
-                datetime: comment.datetime,
-                avatar: user.avatar,
-                text: comment.text,
-                evaluation: comment.evaluation,
-                answer: relatedComment
-            }
-        }));
+        return Promise.all(comments.map(comment => comment.repr()));
     }
 
     async AvatarUpload(user: IUser, file?: Express.Multer.File) {
