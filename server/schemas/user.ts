@@ -24,9 +24,6 @@ const UserSchema: Schema<IUser> = new Schema({
     },
     hobbies: {
         type: [Schema.Types.ObjectId],
-    },
-    comments: {
-        type: [Schema.Types.ObjectId]
     }
 });
 

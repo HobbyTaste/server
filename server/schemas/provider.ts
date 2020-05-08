@@ -34,9 +34,6 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     },
     avatar: {
         type: String,
-    },
-    comments: {
-        type: [Schema.Types.ObjectId]
     }
 });
 
