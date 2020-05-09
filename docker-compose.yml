@@ -15,7 +15,7 @@ services:
         networks:
             - app-network
         ports:
-            - "8800:8800"
+            - "80:80"
 
 networks:
     app-network:
