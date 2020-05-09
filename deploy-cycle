@@ -1,0 +1,29 @@
+#!/bin/bash
+
+BACK_IMAGE="makut/ht-backend:latest"
+FRONT_IMAGE="makut/ht-frontend:latest"
+
+function need_restart_by_name() {
+    eval image="$1"
+    if docker pull ${image} | grep -q "Image is up to date"; then
+        false
+    else
+        true
+    fi
+}
+
+function need_restart() {
+     need_restart_by_name $BACK_IMAGE || need_restart_by_name $FRONT_IMAGE
+}
+
+docker-compose up --build -d
+
+while true
+do
+    sleep 10
+    if need_restart; then
+        echo "New version is found. Restarting."
+        docker-compose down
+        docker-compose up --build -d
+    fi
+done

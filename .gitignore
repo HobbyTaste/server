@@ -8,3 +8,4 @@ config/default-secrets.yaml
 *.log
 .balancer
 server_data
+secrets.env

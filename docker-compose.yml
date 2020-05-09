@@ -1,12 +1,14 @@
 version: "3"
 services:
     backend:
-        image: back:latest
+    image: makut/ht-backend:latest
         container_name: backend
         networks:
             - app-network
+        env_file:
+            - secrets.env
     frontend:
-        image: front:latest
+        image: makut/ht-frontend:latest
         container_name: frontend
         networks:
             - app-network
