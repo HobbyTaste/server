@@ -30,7 +30,8 @@ export default class CommentService {
         }
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();
-
+        
+        await this.Comment.findByIdAndUpdate(CommentFields.relatedComment, {relatedComment: commentId})
         await hobby.addComment(commentId);
 
         const nextComments = author.comments.concat(commentId);

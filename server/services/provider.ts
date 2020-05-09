@@ -1,11 +1,13 @@
-import {IHobbyModel} from "../types/hobby";
+import {IHobbyModel, IHobby} from "../types/hobby";
 import {IUserModel} from "../types/user";
 import {IProviderModel, IProvider} from "../types/provider";
-import {ICommentModel} from "../types/comment";
+import {ICommentModel, ICommentInfo, Participants} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {Hobby} from "../models";
 import {uploadFileToS3} from "../utils/aws";
+
+const ObjectId = require("mongoose").Types.ObjectId;
 
 
 export default class ProviderService {
@@ -25,7 +27,9 @@ export default class ProviderService {
         if (!profile.email) {
             throw {status: 400, message: 'Email обязателен'}
         }
-        const provider = await this.Provider.findOne({email: profile.email});
+        const provider = await this.Provider.findOne({
+            $or: [{email: profile.email}, {name: profile.name}, {phone: profile.phone}]
+        });
         if (provider) {
             throw {status: 400, message: 'Такой пользователь уже существует'}
         }
@@ -61,6 +65,12 @@ export default class ProviderService {
         if (file) {
             nextData.avatar = await uploadFileToS3('partner', file);
         }
+        const provider = await this.Provider.findOne({
+            $or: [{email: nextData.email}, {name: nextData.name}, {phone: nextData.phone}]
+        });
+        if (provider) {
+            throw {status: 400, message: 'Такой пользователь уже существует'}
+        }
         if ('password' in nextData) {
             const salt = await bcrypt.genSalt(Number(config.get('saltWorkFactor')));
             nextData.password = await bcrypt.hash(nextData.password, salt);
@@ -70,5 +80,13 @@ export default class ProviderService {
 
     async GetHobbies(providerId: string) {
         return Hobby.find({owner: providerId});
+    }
+
+    async GetComments(provider: IProvider): Promise<ICommentInfo[]> {
+        const hobbies = await this.GetHobbies(provider._id);
+        const commentIds = hobbies.reduce((acc: string[], hobby: IHobby) => acc.concat(hobby.comments), []);
+        let comments = await this.Comment.find({_id: {$in: commentIds}});
+        comments = comments.filter(comment => comment.author.type === Participants.user);
+        return Promise.all(comments.map(comment => comment.repr()));
     }
 }

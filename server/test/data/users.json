@@ -4,13 +4,15 @@
         "password": "anatoly",
         "name": "Anatoly",
         "avatar": "",
-        "email": "anatoly@test.com"
+        "email": "anatoly@test.com",
+        "comments": []
     },
     {
         "hobbies": [],
         "password": "vladimir",
         "name": "Vladimir",
         "avatar": "",
-        "email": "vladimir@test.com"
+        "email": "vladimir@test.com",
+        "comments": []
     }
 ]
