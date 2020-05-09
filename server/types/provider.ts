@@ -8,6 +8,7 @@ export interface IProvider extends Document {
     avatar: string;
     phone: string;
     info: string;
+    followedHobbies: string[]; // foreign key
     checkPasswords(candidatePassword: string): Promise<boolean>
 }
 

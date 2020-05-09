@@ -34,6 +34,10 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     },
     avatar: {
         type: String,
+    },
+    followedHobbies: {
+        type: [Schema.Types.ObjectId],
+        default: []
     }
 });
 

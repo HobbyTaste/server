@@ -102,4 +102,22 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     res.json(await ProviderServiceInstance.GetHobbies(owner));
 });
 
+providerRouter.get('/subscribe', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(400).send('Партнер не авторизован');
+        return;
+    }
+    try {
+        const {id: hobbyId} = req.query;
+        req.session.provider = await ProviderServiceInstance.HobbySubscribe(req.session.provider, hobbyId);
+        res.status(200).end()
+    } catch (e) {
+        if (e.status && e.message) {
+            res.status(e.status).send(e.message)
+        } else {
+            res.status(500).json(e)
+        }
+    }
+})
+
 export default providerRouter;

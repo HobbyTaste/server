@@ -42,8 +42,9 @@ HobbySchema.methods.addComment = async function(commentId) {
         const count = await this.userCommentsCount();
         this.rating = (this.rating * count + comment.evaluation) / (count + 1)
     }
-    this.comments = this.comments.concat(commentId);
-    return await mongoose.model('Hobby').findByIdAndUpdate(this._id, this) as IHobby
+    const nextRating = this.rating;
+    const nextComments = this.comments.concat(commentId);
+    return await mongoose.model('Hobby').findByIdAndUpdate(this._id, {comments: nextComments, rating: nextRating}) as IHobby
 }
 
 HobbySchema.methods.userComments = async function() {

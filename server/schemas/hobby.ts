@@ -59,6 +59,10 @@ const HobbySchema: Schema<IHobby> = new Schema({
         type: [Schema.Types.ObjectId],
         default: []
     },
+    providerSubscribers: {
+        type: [Schema.Types.ObjectId],
+        default: []
+    },
     avatar: {
         type: String,
     },
