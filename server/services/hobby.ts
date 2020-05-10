@@ -25,7 +25,6 @@ export default class HobbyService {
             throw {status: 404, message: 'Хобби не найдено'};
         }
         const comments = await hobby.userComments();
-        console.log(comments);
         return Promise.all(comments.map((comment: IComment) => comment.repr()))
     }
 
@@ -58,14 +57,5 @@ export default class HobbyService {
 
     async EditHobby(hobbyId: string, updateParams: IHobby) {
         return this.Hobby.findByIdAndUpdate(hobbyId, updateParams);
-    }
-
-    async Subscribe(hobbyId: string, userId: string) {
-        const hobby = await this.Hobby.findById(hobbyId);
-        if (!hobby) {
-            throw {status: 404, message: 'Хобби не найдено'}
-        }
-        const nextSubscribers = hobby.subscribers.concat(userId);
-        return this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers})
     }
 }
