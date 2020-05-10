@@ -103,6 +103,11 @@ hobbyRouter.post('/edit', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ *
+ * Возвращает все комментарии к хобби в формате ICommentInfo
+ */
+
 hobbyRouter.get('/comments', async (req: Request, res: Response) => {
     try {
         const {id} = req.query;
