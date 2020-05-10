@@ -25,8 +25,8 @@ export default class HobbyService {
             throw {status: 404, message: 'Хобби не найдено'};
         }
         const comments = await hobby.userComments();
-        const result = comments.map((comment: IComment) => comment.repr());
-        return Promise.all(result)
+        console.log(comments);
+        return Promise.all(comments.map((comment: IComment) => comment.repr()))
     }
 
     async AddHobby(hobbyInfo: Partial<IHobby>, providerId: string, file?: Express.Multer.File) {

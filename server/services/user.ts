@@ -76,12 +76,12 @@ export default class UserService {
             throw {status: 404, message: 'Такого хобби не найдено'}
         }
 
-        const subscribed = !!hobby.subscribers.find(id => id === user._id);
+        const subscribed = hobby.subscribers.find(id => id == user._id);
         const nextHobbies = subscribed
-            ? user.hobbies.filter(id => id !== hobbyId)
+            ? user.hobbies.filter(id => id != hobbyId)
             : user.hobbies.concat(hobbyId);
         const nextSubscribers = subscribed
-            ? hobby.subscribers.filter(id => id !== user._id)
+            ? hobby.subscribers.filter(id => id != user._id)
             : hobby.subscribers.concat(user._id);
 
         await this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers});

@@ -81,12 +81,12 @@ export default class ProviderService {
             throw {status: 404, message: 'Такого хобби не найдено'}
         }
 
-        const subscribed = hobby.providerSubscribers.find(id => id === provider._id);
+        const subscribed = hobby.providerSubscribers.find(id => id == provider._id);
         const nextProviderSubscribers = subscribed
-            ? hobby.providerSubscribers.filter(id => id !== provider._id)
+            ? hobby.providerSubscribers.filter(id => id != provider._id)
             : hobby.providerSubscribers.concat(provider._id);
         const nextFollowedHobbies = subscribed
-            ? provider.followedHobbies.filter(id => id !== hobbyId)
+            ? provider.followedHobbies.filter(id => id != hobbyId)
             : provider.followedHobbies.concat(hobbyId);
         await this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextProviderSubscribers});
         return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
