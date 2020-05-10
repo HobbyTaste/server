@@ -102,7 +102,7 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     res.json(await ProviderServiceInstance.GetHobbies(owner));
 });
 
-providerRouter.get('/subscribe', async (req: Request, res: Response) => {
+providerRouter.post('/subscribe', async (req: Request, res: Response) => {
     if (!req.session?.provider) {
         res.status(400).send('Партнер не авторизован');
         return;

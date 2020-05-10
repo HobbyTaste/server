@@ -92,7 +92,7 @@ userRouter.get('/info', async (req: Request, res: Response) => {
     }
 });
 
-userRouter.get('/subscribe', async (req: Request, res: Response) => {
+userRouter.post('/subscribe', async (req: Request, res: Response) => {
      if (!req.session?.user) {
          res.status(400).send('Пользователь не авторизован');
          return;
