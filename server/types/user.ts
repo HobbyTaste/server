@@ -6,7 +6,6 @@ export interface IUser extends Document {
     email: string;
     avatar: string;
     hobbies: string[]; // foreign key
-    comments: string[]; // foreign key
     checkPasswords(candidatePassword: string): Promise<boolean>
     repr(): Promise<IUserInfo>
 }

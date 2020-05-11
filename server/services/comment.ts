@@ -1,4 +1,4 @@
-import {IComment, ICommentModel, Participants} from "../types/comment";
+import {IComment, ICommentModel} from "../types/comment";
 import {IHobbyModel} from "../types/hobby";
 import {IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
@@ -19,25 +19,12 @@ export default class CommentService {
 
     async CreateComment(hobbyId: string, CommentFields: Partial<IComment>) {
         const hobby = await this.Hobby.findById(hobbyId);
-        const author = CommentFields.author?.type === Participants.user
-            ? await this.User.findById(CommentFields.author.id)
-            : await this.Provider.findById(CommentFields.author?.id);
         if (!hobby) {
             throw {status: 404, message: 'Хобби не найдено'};
-        }
-        if (!author) {
-            throw {status: 404, message: 'Пользователь не найден'};
         }
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();
 
-        await hobby.addComment(commentId);
-
-        const nextComments = author.comments.concat(commentId);
-        if (CommentFields.author?.type === Participants.user) {
-            await this.User.findByIdAndUpdate(CommentFields.author.id, {comments: nextComments});
-        } else {
-            await this.Provider.findByIdAndUpdate(CommentFields.author?.id, {comments: nextComments});
-        }
+        return hobby.addComment(commentId);
     }
 }

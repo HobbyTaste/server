@@ -20,7 +20,7 @@ commentRouter.post('/create', async (req: ICreateCommentRequest, res: Response) 
         const type = req.session.user ? Participants.user : Participants.provider;
         const {_id: authorId} = type === Participants.user ? req.session.user : req.session.provider;
         await CommentServiceInstance.CreateComment(req.query.hobbyId, {
-            author: {id: authorId, type},
+            author: {type, id: authorId},
             ...req.body,
             relatedComment: req.query.relatedId
         });

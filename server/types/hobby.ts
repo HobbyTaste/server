@@ -25,6 +25,7 @@ export interface IHobby extends Document {
     imageUrl: string;
     owner: string; // foreign key
     subscribers: string[]; // foreign key
+    providerSubscribers: string[]; // foreign key
     category?: string;
     avatar?: string;
     rating: number;

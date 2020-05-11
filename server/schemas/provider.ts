@@ -12,7 +12,6 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     },
     phone: {
         type: String,
-        required: true,
         trim: true,
         unique: true,
         match: [PHONE_REG_EXP, 'Неверный формат']
@@ -35,8 +34,9 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     avatar: {
         type: String,
     },
-    comments: {
-        type: [Schema.Types.ObjectId]
+    followedHobbies: {
+        type: [Schema.Types.ObjectId],
+        default: []
     }
 });
 
