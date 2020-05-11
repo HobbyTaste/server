@@ -88,7 +88,7 @@ export default class ProviderService {
         const nextFollowedHobbies = subscribed
             ? provider.followedHobbies.filter(id => id != hobbyId)
             : provider.followedHobbies.concat(hobbyId);
-        await this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextProviderSubscribers});
+        await this.Hobby.findByIdAndUpdate(hobbyId, {providerSubscribers: nextProviderSubscribers});
         return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
     }
 }

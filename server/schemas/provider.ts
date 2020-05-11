@@ -12,7 +12,6 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     },
     phone: {
         type: String,
-        required: true,
         trim: true,
         unique: true,
         match: [PHONE_REG_EXP, 'Неверный формат']
