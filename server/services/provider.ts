@@ -32,6 +32,7 @@ export default class ProviderService {
         if (file) {
             profile.avatar = await uploadFileToS3('provider', file);
         }
+        console.log(profile);
         const newProvider = new this.Provider({...profile});
         return newProvider.save();
     }
