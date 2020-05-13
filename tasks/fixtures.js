@@ -12,8 +12,8 @@ new Promise(r => setTimeout(r, 1000)).then(() => {});
 
 fixtures
 	.connect(dbHost, {
-			useUnifiedTopology: true,
-			useNewUrlParser: true
+		useUnifiedTopology: true,
+		useNewUrlParser: true
 	})
 	.then(() => fixtures._db.dropDatabase())
 	.then(() => fixtures.unload())
