@@ -22,7 +22,6 @@ export interface IHobby extends Document {
     metroId?: string;
     description: string;
     shortDescription: string;
-    imageUrl: string;
     owner: string; // foreign key
     subscribers: string[]; // foreign key
     providerSubscribers: string[]; // foreign key

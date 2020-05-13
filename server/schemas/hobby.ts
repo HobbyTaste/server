@@ -1,7 +1,7 @@
 import {IHobby, TariffPlans} from "../types/hobby";
 import {Schema} from 'mongoose'
 
-const EMAIL_REG_EXP = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+const EMAIL_REG_EXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const HobbySchema: Schema<IHobby> = new Schema({
     label: {
@@ -12,7 +12,7 @@ const HobbySchema: Schema<IHobby> = new Schema({
     phone: {
         type: String,
         trim: true,
-        match: [/^\+\d{11}$/, 'Неверный формат номера телефона']
+        match: [/^\+7\d{10}$/, 'Неверный формат номера телефона']
     },
     email: {
         type: String,
@@ -48,9 +48,6 @@ const HobbySchema: Schema<IHobby> = new Schema({
     shortDescription: {
         type: String,
         maxlength: [500, 'toLongDescription'],
-    },
-    imageUrl: {
-        type: String,
     },
     owner: {
         type: Schema.Types.ObjectId,
