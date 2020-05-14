@@ -7,7 +7,7 @@ export enum HTTP_STATUS {
     OK = 200,
 }
 
-export interface HTTPError {
+export interface IHTTPError {
     status: number,
     message: string
 }

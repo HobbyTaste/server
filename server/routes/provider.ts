@@ -133,4 +133,20 @@ providerRouter.get('/subscribe', async (req: Request, res: Response) => {
     }
 })
 
+/**
+ * Хобби, на которые подписан провайдер
+ */
+providerRouter.get('/followed', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(HTTP_STATUS.BAD_REQUEST).send('Партнер не авторизован');
+        return;
+    }
+    try {
+        res.json(await ProviderServiceInstance.GetFollowedHobbies(req.session.provider))
+    } catch (e) {
+        const {status, message} = processError(e);
+        res.status(status).send(message);
+    }
+})
+
 export default providerRouter;

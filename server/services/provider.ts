@@ -92,4 +92,9 @@ export default class ProviderService {
         await this.Hobby.findByIdAndUpdate(hobbyId, {providerSubscribers: nextProviderSubscribers});
         return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
     }
+
+    async GetFollowedHobbies(provider: IProvider) {
+        const hobbyIds = provider.followedHobbies;
+        return this.Hobby.find({_id: {$in: hobbyIds}});
+    }
 }

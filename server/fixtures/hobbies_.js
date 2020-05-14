@@ -19,17 +19,24 @@ module.exports = (collection) => {
             .then(userList => getCollection('providers')
                 .then(providerList => getCollection('comments')
                     .then(commentList => Promise.all(hobbyList.map(async hobby => {
-                        const hobbyComments = commentList.filter(comment => hobby.comments.includes(comment.temp_id));
-                        const hobbyCommentsId = hobbyComments.map(comment => comment._id);
-                        const hobbySubscribers = userList.filter(user => hobby.subscribers.includes(user.email));
-                        const hobbySubscribersId = hobbySubscribers.map(user => user._id);
-                        const hobbyOwner = providerList.find(provider => hobby.owner === provider.email);
-                        const hobbyOwnerId = hobbyOwner._id;
+                        const hobbyCommentsIds = commentList
+                            .filter(comment => hobby.comments.includes(comment.temp_id))
+                            .map(comment => comment._id);
+                        const subscribersIds = userList
+                            .filter(user => hobby.subscribers.includes(user.email))
+                            .map(user => user._id);
+                        const providerSubsIds = providerList
+                            .filter(provider => hobby.providerSubscribers.includes(provider.email))
+                            .map(provider => provider._id);
+                        const hobbyOwnerId = providerList
+                            .find(provider => hobby.owner === provider.email)
+                            ._id;
                         return collection.updateOne(hobby, {
                             $set: {
-                                "subscribers": hobbySubscribersId,
+                                "subscribers": subscribersIds,
+                                "providerSubscribers": providerSubsIds,
                                 "owner": hobbyOwnerId,
-                                "comments": hobbyCommentsId
+                                "comments": hobbyCommentsIds
                                 }
                             });
                     }))))))

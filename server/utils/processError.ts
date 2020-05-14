@@ -1,6 +1,6 @@
-import {HTTP_STATUS, HTTPError} from "../types/http";
+import {HTTP_STATUS, IHTTPError} from "../types/http";
 
-export default (error: HTTPError | object) => {
+export default (error: IHTTPError | object) => {
     if ("status" in error && "message" in error) {
         return {
             status: error.status,
