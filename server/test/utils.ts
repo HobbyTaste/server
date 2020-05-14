@@ -7,17 +7,12 @@ import {Hobby, User, Provider} from "../models";
 import {IProvider} from '../types/provider';
 import {IUser} from "../types/user";
 import {IHobby} from "../types/hobby";
+import {HTTP_STATUS} from "../types/http";
 import nock from "nock";
 
 const assert: Chai.AssertStatic = chai.assert;
 chai.use(chaiHttp);
 
-export enum HTTP_STATUS {
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    NOT_FOUND = 404,
-    OK = 200,
-}
 
 export let agent: ChaiHttp.Agent = chai.request.agent(server);
 

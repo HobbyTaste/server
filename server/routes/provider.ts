@@ -4,6 +4,8 @@ import multer from "multer";
 import config from "config";
 import ProviderService from "../services/provider"
 import {User, Provider, Comment, Hobby} from '../models'
+import {HTTP_STATUS} from "../types/http";
+import processError from "../utils/processError";
 
 
 const providerRouter: Router = Router();
@@ -21,13 +23,10 @@ providerRouter.post('/create', upload.single('avatar'), async (req: Request, res
         if (req.session) {
             req.session.provider = newProvider;
         }
-        res.status(200).send();
+        res.status(HTTP_STATUS.OK).send();
     } catch (e) {
-        if (e.status && e.message) {
-            res.status(e.status).send(e.message);
-        } else {
-            res.status(500).send(e);
-        }
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
 });
 
@@ -45,13 +44,10 @@ providerRouter.post('/login', async (req: Request, res: Response) => {
         if (req.session) {
             req.session.provider = await ProviderServiceInstance.LoginProvider(email, password);
         }
-        res.status(200).send();
+        res.status(HTTP_STATUS.OK).send();
     } catch (e) {
-        if (e.status && e.message) {
-            res.status(e.status).send(e.message)
-        } else {
-            res.status(500).send(e)
-        }
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
 });
 
@@ -80,13 +76,10 @@ providerRouter.get('/info', async (req: Request, res: Response) => {
             res.json({id, ...restProperties});
             return;
         }
-        res.status(403).send('Текущий партнер не прошел авторизацию');
+        res.status(HTTP_STATUS.FORBIDDEN).send('Текущий партнер не прошел авторизацию');
     } catch (e) {
-        if (e.status && e.message) {
-            res.status(e.status).send(e.message)
-        } else {
-            res.status(500).send(e)
-        }
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
 });
 
@@ -95,7 +88,7 @@ providerRouter.get('/info', async (req: Request, res: Response) => {
  */
 providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: Response) => {
     if (!req.session?.provider) {
-        res.status(403).send('Партнер не авторизован');
+        res.status(HTTP_STATUS.FORBIDDEN).send('Партнер не авторизован');
         return;
     }
     try {
@@ -105,9 +98,9 @@ providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: 
         req.session.provider = await ProviderServiceInstance.EditProvider(id, nextData, file);
         res.end();
     } catch (e) {
-        res.status(500).send(e);
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
-    res.end();
 });
 
 /**
@@ -115,7 +108,7 @@ providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: 
  */
 providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     if (!req.session?.provider) {
-        res.status(400).send('Партнер не авторизован');
+        res.status(HTTP_STATUS.BAD_REQUEST).send('Партнер не авторизован');
         return;
     }
     const {_id: owner} = req.session.provider;
@@ -127,19 +120,16 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
  */
 providerRouter.get('/subscribe', async (req: Request, res: Response) => {
     if (!req.session?.provider) {
-        res.status(400).send('Партнер не авторизован');
+        res.status(HTTP_STATUS.BAD_REQUEST).send('Партнер не авторизован');
         return;
     }
     try {
         const {id: hobbyId} = req.query;
         req.session.provider = await ProviderServiceInstance.HobbySubscribe(req.session.provider, hobbyId);
-        res.status(200).end()
+        res.status(HTTP_STATUS.OK).end()
     } catch (e) {
-        if (e.status && e.message) {
-            res.status(e.status).send(e.message)
-        } else {
-            res.status(500).json(e)
-        }
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
 })
 

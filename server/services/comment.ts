@@ -2,6 +2,7 @@ import {IComment, ICommentModel} from "../types/comment";
 import {IHobbyModel} from "../types/hobby";
 import {IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
+import {HTTP_STATUS} from "../types/http";
 
 
 export default class CommentService {
@@ -20,7 +21,7 @@ export default class CommentService {
     async CreateComment(hobbyId: string, CommentFields: Partial<IComment>) {
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Хобби не найдено'};
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Хобби не найдено'};
         }
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();

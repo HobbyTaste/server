@@ -5,7 +5,8 @@ import {ICommentModel, ICommentInfo, Participants} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
-const ObjectId = require('mongoose').Types.ObjectId
+import {HTTP_STATUS} from "../types/http";
+const ObjectId = require('mongoose').Types.ObjectId;
 
 
 export default class UserService {
@@ -24,22 +25,22 @@ export default class UserService {
     async LoginUser(email: string, password: string) {
         const user = await this.User.findOne({email});
         if (!user) {
-            throw {status: 400, message: 'Неверный логин'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный логин'}
         }
         const isTruePassword = await user.checkPasswords(password);
         if (!isTruePassword) {
-            throw {status: 400, message: 'Неверный пароль'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный пароль'}
         }
         return user
     }
 
     async CreateUser(profile: Partial<IUser>, file?: Express.Multer.File) {
         if (!profile.email) {
-            throw {status: 400, message: 'Email обязателен для регистрации'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Email обязателен для регистрации'}
         }
         const user = await this.User.findOne({email: profile.email});
         if (user) {
-            throw {status: 400, message: 'Такой пользователь уже существует'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if (file) {
             profile.avatar = await uploadFileToS3('users', file);
@@ -62,18 +63,18 @@ export default class UserService {
     async UserInfo(userId: string): Promise<IUserInfo> {
         const user = await this.User.findById(userId);
         if (!user) {
-            throw {status: 404, message: 'Не найден такой пользователь'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Не найден такой пользователь'}
         }
         return user.repr();
     }
 
     async HobbySubscribe(user: IUser, hobbyId?: string) {
         if (!hobbyId) {
-            throw {status: 400, message: 'Необходимо указать id хобби для подписки'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Необходимо указать id хобби для подписки'}
         }
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Такого хобби не найдено'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Такого хобби не найдено'}
         }
 
         const subscribed = hobby.subscribers.find(id => id == user._id);
@@ -100,10 +101,10 @@ export default class UserService {
 
     async AvatarUpload(user: IUser, file?: Express.Multer.File) {
         if (!file) {
-            throw {status: 400, message: 'Нет файла'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Нет файла'}
         }
         if (!file.mimetype.match(/images/)) {
-            throw {status: 400, message: 'Неверный формат изображения'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный формат изображения'}
         }
         const url = await uploadFileToS3('users', file);
         return this.User.findByIdAndUpdate(user._id, {avatar: url}, {new: true});
