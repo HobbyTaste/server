@@ -91,11 +91,11 @@ export default class UserService {
 
     async GetHobbies(user: IUser) {
         const {hobbies: hobbyIds} = user;
-        return this.Hobby.find({_id: {$in: hobbyIds}});
+        return this.Hobby.findById({$in: hobbyIds});
     }
 
     async GetComments(user: IUser): Promise<ICommentInfo[]> {
-        const comments = await this.Comment.find({author: {type: Participants.user, id: ObjectId(user._id)}})
+        const comments = await this.Comment.find({'author.id': ObjectId(user._id)})
         return Promise.all(comments.map(comment => comment.repr()));
     }
 
