@@ -5,6 +5,7 @@ import {ICommentModel, ICommentInfo, Participants} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
+const ObjectId = require('mongoose').Types.ObjectId
 
 const ObjectId = require("mongoose").Types.ObjectId;
 
@@ -76,8 +77,14 @@ export default class UserService {
         if (!hobby) {
             throw {status: 404, message: 'Такого хобби не найдено'}
         }
-        const nextHobbies = [...new Set(user.hobbies.concat(hobbyId))];
-        const nextSubscribers = [...new Set(hobby.subscribers.concat(user._id))];
+
+        const subscribed = hobby.subscribers.find(id => id == user._id);
+        const nextHobbies = subscribed
+            ? user.hobbies.filter(id => id != hobbyId)
+            : user.hobbies.concat(hobbyId);
+        const nextSubscribers = subscribed
+            ? hobby.subscribers.filter(id => id != user._id)
+            : hobby.subscribers.concat(user._id);
 
         await this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers});
         return this.User.findByIdAndUpdate(user._id, {hobbies: nextHobbies}, {new: true});
@@ -89,10 +96,7 @@ export default class UserService {
     }
 
     async GetComments(user: IUser): Promise<ICommentInfo[]> {
-        const userById = await this.User.findById(user._id);
-        const comments = await this.Comment.find({
-            _id: {$in: userById?.comments.map(string_id => ObjectId(string_id))}
-        });
+        const comments = await this.Comment.find({author: {type: Participants.user, id: ObjectId(user._id)}})
         return Promise.all(comments.map(comment => comment.repr()));
     }
 

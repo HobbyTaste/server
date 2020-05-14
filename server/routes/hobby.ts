@@ -112,15 +112,15 @@ hobbyRouter.post('/edit', async (req: Request, res: Response) => {
     }
 });
 
-hobbyRouter.get('/subscribe', async (req: Request, res: Response) => {
-    if (!req.session?.user) {
-        res.status(403).send('Пользователь не авторизирован');
-        return;
-    }
+/**
+ *
+ * Возвращает все комментарии к хобби в формате ICommentInfo
+ */
+
+hobbyRouter.get('/comments', async (req: Request, res: Response) => {
     try {
-        const {_id: userId} = req.session.user;
         const {id} = req.query;
-        await HobbyServiceInstance.Subscribe(id, userId);
+        res.json(await HobbyServiceInstance.GetComments(id));
     } catch (e) {
         if (e.status && e.message) {
             res.status(e.status).send(e.message);
@@ -128,6 +128,6 @@ hobbyRouter.get('/subscribe', async (req: Request, res: Response) => {
             res.status(500).send(e);
         }
     }
-});
+})
 
 export default hobbyRouter;

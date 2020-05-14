@@ -5,8 +5,7 @@
     "email" : "sport@test.com",
     "avatar" : null,
     "phone" : "+79009009090",
-    "info" : "sport events",
-    "comments": [1]
+    "info" : "sport events"
   },
   {
     "name" : "Music Organization",
@@ -14,8 +13,7 @@
     "email" : "music@test.com",
     "avatar" : null,
     "phone" : "+78008008080",
-    "info" : "music events",
-    "comments": []
+    "info" : "music events"
   },
   {
     "name" : "Travel Agency",
@@ -23,7 +21,6 @@
     "email" : "travel@test.com",
     "avatar" : null,
     "phone" : "+77007007070",
-    "info" : "travel events",
-    "comments": []
+    "info" : "travel events"
   }
 ]

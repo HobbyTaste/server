@@ -87,6 +87,26 @@ export default class ProviderService {
         const commentIds = hobbies.reduce((acc: string[], hobby: IHobby) => acc.concat(hobby.comments), []);
         let comments = await this.Comment.find({_id: {$in: commentIds}});
         comments = comments.filter(comment => comment.author.type === Participants.user);
-        return Promise.all(comments.map(comment => comment.repr()));
+        return Promise.all(comments.map(comment => comment.repr()))
+    }
+
+    async HobbySubscribe(provider: IProvider, hobbyId: string) {
+        if (!hobbyId) {
+            throw {status: 400, message: 'Необходимо указать id хобби для подписки'}
+        }
+        const hobby = await this.Hobby.findById(hobbyId);
+        if (!hobby) {
+            throw {status: 404, message: 'Такого хобби не найдено'}
+        }
+
+        const subscribed = hobby.providerSubscribers.find(id => id == provider._id);
+        const nextProviderSubscribers = subscribed
+            ? hobby.providerSubscribers.filter(id => id != provider._id)
+            : hobby.providerSubscribers.concat(provider._id);
+        const nextFollowedHobbies = subscribed
+            ? provider.followedHobbies.filter(id => id != hobbyId)
+            : provider.followedHobbies.concat(hobbyId);
+        await this.Hobby.findByIdAndUpdate(hobbyId, {providerSubscribers: nextProviderSubscribers});
+        return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
     }
 }

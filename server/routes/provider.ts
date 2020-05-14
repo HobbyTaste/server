@@ -10,6 +10,9 @@ const providerRouter: Router = Router();
 const ProviderServiceInstance = new ProviderService(Hobby, User, Provider, Comment)
 const upload = multer({limits: {fieldSize: Number(config.get('aws.maxFileSize'))}});
 
+/**
+ * Регистрация партнера
+ */
 providerRouter.post('/create', upload.single('avatar'), async (req: Request, res: Response) => {
     try {
         const {...profile}: IProvider = req.body;
@@ -28,6 +31,10 @@ providerRouter.post('/create', upload.single('avatar'), async (req: Request, res
     }
 });
 
+
+/**
+ * Авторизация партнера
+ */
 providerRouter.post('/login', async (req: Request, res: Response) => {
     if (req.session?.provider) {
         res.end();
@@ -48,6 +55,9 @@ providerRouter.post('/login', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Выход
+ */
 providerRouter.get('/logout', (req: Request, res: Response) => {
     if (req.session) {
         req.session.provider = null;
@@ -55,6 +65,10 @@ providerRouter.get('/logout', (req: Request, res: Response) => {
     res.end();
 });
 
+/**
+ * Информация о партнере
+ *
+ */
 providerRouter.get('/info', async (req: Request, res: Response) => {
     try {
         if (req.query.id) {
@@ -76,6 +90,9 @@ providerRouter.get('/info', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Редактирование информации о партнере
+ */
 providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: Response) => {
     if (!req.session?.provider) {
         res.status(403).send('Партнер не авторизован');
@@ -97,6 +114,9 @@ providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: 
     res.end();
 });
 
+/**
+ * Все хобби, предоставляемые партнером
+ */
 providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     if (!req.session?.provider) {
         res.status(400).send('Партнер не авторизован');
@@ -106,6 +126,9 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     res.json(await ProviderServiceInstance.GetHobbies(owner));
 });
 
+/**
+ * Комментарии пользователей ко всем хобби партнера
+ */
 providerRouter.get('/comments', async (req: Request, res: Response) => {
     if (!req.session?.provider) {
         res.status(400).send('Пользователь не авторизован');
@@ -117,5 +140,26 @@ providerRouter.get('/comments', async (req: Request, res: Response) => {
         res.status(500).send(e);
     }
 });
+
+/**
+ * Подписка на хобби
+ */
+providerRouter.get('/subscribe', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(400).send('Партнер не авторизован');
+        return;
+    }
+    try {
+        const {id: hobbyId} = req.query;
+        req.session.provider = await ProviderServiceInstance.HobbySubscribe(req.session.provider, hobbyId);
+        res.status(200).end()
+    } catch (e) {
+        if (e.status && e.message) {
+            res.status(e.status).send(e.message)
+        } else {
+            res.status(500).json(e)
+        }
+    }
+})
 
 export default providerRouter;

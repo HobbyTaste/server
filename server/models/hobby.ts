@@ -30,10 +30,16 @@ HobbySchema.methods.userCommentsCount = async function() {
     const commentIds = this.comments;
     return mongoose.model('Comment').count({
         _id: {$in: commentIds},
-        author: {
-            type: Participants.user
-        }
+        "author.type": Participants.user
     })
+}
+
+HobbySchema.methods.userComments = async function() {
+    const commentIds = this.comments;
+    return await mongoose.model('Comment').find({
+        _id: {$in: commentIds},
+        "author.type": Participants.user
+    }) as IComment[];
 }
 
 HobbySchema.methods.addComment = async function(commentId) {
@@ -42,17 +48,9 @@ HobbySchema.methods.addComment = async function(commentId) {
         const count = await this.userCommentsCount();
         this.rating = (this.rating * count + comment.evaluation) / (count + 1)
     }
-    this.comments = this.comments.concat(commentId);
-    return await mongoose.model('Hobby').findByIdAndUpdate(this._id, this) as IHobby
-}
-
-HobbySchema.methods.userComments = async function() {
-    return await mongoose.model('Comment').find({
-        _id: {$in: this.comments},
-        author: {
-            type: Participants.user
-        }
-    }) as IComment[];
+    const nextRating = this.rating;
+    const nextComments = this.comments.concat(commentId);
+    return await mongoose.model('Hobby').findByIdAndUpdate(this._id, {comments: nextComments, rating: nextRating}) as IHobby
 }
 
 const obj: any = {};

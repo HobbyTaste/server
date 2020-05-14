@@ -10,6 +10,10 @@ const UserServiceInstance = new UserService(Hobby, User, Provider, Comment);
 
 const upload = multer({limits: {fieldSize: Number(config.get('aws.maxFileSize'))}});
 
+
+/**
+ * Авторизация пользователя
+ */
 userRouter.post('/login', async (req: Request, res: Response) => {
     if (req.session?.user) {
         res.end();
@@ -30,6 +34,9 @@ userRouter.post('/login', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Регистрация пользователя
+ */
 userRouter.post('/create', upload.single('avatar'), async (req: Request, res: Response) => {
     try {
         const {...profile} = req.body;
@@ -48,6 +55,9 @@ userRouter.post('/create', upload.single('avatar'), async (req: Request, res: Re
     }
 });
 
+/**
+ * Редактирование информации о пользователе
+ */
 userRouter.post('/edit', upload.single('avatar'), async (req: Request, res: Response) => {
     if (!req.session?.user) {
         res.status(403).send('Пользователь не авторизован');
@@ -64,6 +74,9 @@ userRouter.post('/edit', upload.single('avatar'), async (req: Request, res: Resp
     }
 });
 
+/**
+ * Выход
+ */
 userRouter.get('/logout', (req: Request, res: Response) => {
     if (req.session) {
         req.session.user = null;
@@ -71,6 +84,9 @@ userRouter.get('/logout', (req: Request, res: Response) => {
     res.end();
 });
 
+/**
+ * Информация о пользователе
+ */
 userRouter.get('/info', async (req: Request, res: Response) => {
     try {
         if (req.query.id) {
@@ -92,6 +108,9 @@ userRouter.get('/info', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Подписка на хобби
+ */
 userRouter.get('/subscribe', async (req: Request, res: Response) => {
      if (!req.session?.user) {
          res.status(400).send('Пользователь не авторизован');
@@ -110,6 +129,9 @@ userRouter.get('/subscribe', async (req: Request, res: Response) => {
      }
 });
 
+/**
+ * Все хобби, на которые пользователь подписан
+ */
 userRouter.get('/hobbies', async (req: Request, res: Response) => {
     if (!req.session?.user) {
         res.status(400).send('Пользователь не авторизован');
@@ -122,6 +144,9 @@ userRouter.get('/hobbies', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Все комментарии пользователя
+ */
 userRouter.get('/comments', async (req: Request, res: Response) => {
     if (!req.session?.user) {
         res.status(400).send('Пользователь не авторизован');
@@ -134,6 +159,9 @@ userRouter.get('/comments', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Загрузка аватара
+ */
 userRouter.post('/upload', upload.single('avatar'), async (req: Request, res: Response) => {
     if (!req.session?.user) {
         res.status(403).send('Текущий пользователь не прошел авторизацию');

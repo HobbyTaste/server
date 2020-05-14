@@ -7,3 +7,4 @@ config/default-secrets.yaml
 *.tar.gz
 *.log
 .balancer
+server_data
