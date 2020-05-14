@@ -65,7 +65,7 @@ export default class HobbyService {
         if (!hobby) {
             throw {status: HTTP_STATUS.NOT_FOUND, message: 'Хобби не найдено'}
         }
-        if (hobby.owner !== providerId) {
+        if (hobby.owner != providerId) {
             throw {status: HTTP_STATUS.FORBIDDEN, message: 'Можно подключать только для своих хобби'}
         }
         const nextMonetization = hobby.monetization.concat({

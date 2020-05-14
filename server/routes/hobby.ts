@@ -2,7 +2,6 @@ import {Router, Request, Response} from 'express';
 import {IHobby} from "../types/hobby";
 import multer from "multer";
 import config from "config";
-import logger from "../utils/logger";
 import HobbyService from "../services/hobby";
 import {Comment, Hobby, Provider, User} from "../models";
 import {HTTP_STATUS} from "../types/http";
@@ -57,7 +56,8 @@ hobbyRouter.get('/filter', async (req: Request, res: Response) => {
         const {...filters} = req.query;
         res.json(await HobbyServiceInstance.Filtered(filters));
     } catch (e) {
-        res.status(HTTP_STATUS.INTERNAL_ERROR).json(e);
+        const {status, message} = processError(e);
+        res.status(status).send(message);
     }
 });
 
