@@ -24,7 +24,7 @@ export default class CommentService {
         }
         const newComment = new this.Comment(CommentFields);
         const {_id: commentId} = await newComment.save();
-
+        await this.Comment.findByIdAndUpdate(CommentFields.relatedComment, {relatedComment: commentId})
         return hobby.addComment(commentId);
     }
 }

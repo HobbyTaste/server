@@ -105,7 +105,11 @@ providerRouter.post('/edit', upload.single('avatar'), async (req: Request, res: 
         req.session.provider = await ProviderServiceInstance.EditProvider(id, nextData, file);
         res.end();
     } catch (e) {
-        res.status(500).send(e);
+        if (e.status && e.message) {
+            res.status(e.status).send(e.message)
+        } else {
+            res.status(500).send(e)
+        }
     }
     res.end();
 });
@@ -120,6 +124,21 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
     }
     const {_id: owner} = req.session.provider;
     res.json(await ProviderServiceInstance.GetHobbies(owner));
+});
+
+/**
+ * Комментарии пользователей ко всем хобби партнера
+ */
+providerRouter.get('/comments', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(400).send('Пользователь не авторизован');
+        return;
+    }
+    try {
+        res.json(await ProviderServiceInstance.GetComments(req.session.provider));
+    } catch (e) {
+        res.status(500).send(e);
+    }
 });
 
 /**

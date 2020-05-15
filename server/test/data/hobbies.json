@@ -3,7 +3,14 @@
         "label": "Клуб \"Чеканная монета\"",
         "phone": "+79009009696",
         "email": "numismatics@test.com",
+        "website": "minted-coin.ru",
+        "contacts": {
+            "vk": "vk.com/minted-coin",
+            "instagram": "instagram.com/minted-coin",
+            "facebook": "facebook.com/minted-coin"
+        },
         "address": "Измайловское шоссе, 71кА",
+        "location": "1 этаж, вход с торца здания",
         "metroStation": "Партизанская",
         "metroId": "43",
         "description": "fans of old European coins",
@@ -12,13 +19,33 @@
         "owner": "",
         "subscribers": [],
         "avatar": "",
-        "category": "numismatics"
+        "category": "numismatics",
+        "rating": 4.5,
+        "comments": [],
+        "parking": true,
+        "equipment": false,
+        "novice": false,
+        "children": false,
+        "facilities": "",
+        "special": "",
+        "price": {
+            "title": "Бесплатно",
+            "priceList": "no pricelist"
+        },
+        "workTime": ["08.05.2020 19:30", "15.05.2020 19:30", "22.05.2020 19:30"]
     },
     {
         "label": "Съёмка спортивных событий",
         "phone": "+79009009797",
         "email": "photo@test.com",
+        "website": "sport-shooting.ru",
+        "contacts": {
+            "vk": "vk.com/sport-shooting",
+            "instagram": "instagram.com/sport-shooting",
+            "facebook": "facebook.com/sport-shooting"
+        },
         "address": "Оружейный переулок, 3с1",
+        "location": "1 этаж, вход с торца здания",
         "metroStation": "Маяковская",
         "metroId": "32",
         "description": "sports photo sessions",
@@ -27,6 +54,33 @@
         "owner": "",
         "subscribers": [],
         "avatar": "",
-        "category": "photo"
+        "category": "photo",
+        "rating": 4.8,
+        "comments": [],
+        "parking": true,
+        "equipment": false,
+        "novice": true,
+        "children": false,
+        "facilities": "бесплатный доступ к Adobe Photoshop",
+        "special": "",
+        "price": {
+            "title": "500",
+            "priceList": "Первое занятие — бесплатно, за месяц — 3000, за одно занятие — 500"
+        },
+        "monetization": [
+            {
+              "tariff": 0,
+              "activationDate": "22.04.2020",
+              "expirationDate": "22.05.2020",
+              "cost": 2000
+            },
+            {
+              "tariff": 1,
+              "activationDate": "08.05.2020",
+              "expirationDate": "12.05.2020",
+              "cost": 350
+            }
+          ],
+        "workTime": ["08.05.2020 20:00", "12.05.2020 20:30", "14.05.2020 15:05"]
     }
 ]

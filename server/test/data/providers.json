@@ -5,7 +5,8 @@
         "email": "test_sport@test.com",
         "avatar": "",
         "phone": "+76006006060",
-        "info": "testing sport events"
+        "info": "testing sport events",
+        "comments": []
     },
     {
         "name": "Test Music Organization",
@@ -13,6 +14,7 @@
         "email": "test_music@test.com",
         "avatar": "",
         "phone": "+75005005050",
-        "info": "testing music events"
+        "info": "testing music events",
+        "comments": []
     }
 ]
