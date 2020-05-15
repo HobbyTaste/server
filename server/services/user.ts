@@ -92,7 +92,7 @@ export default class UserService {
 
     async GetHobbies(user: IUser) {
         const {hobbies: hobbyIds} = user;
-        return this.Hobby.findById({$in: hobbyIds});
+        return this.Hobby.find({_id: {$in: hobbyIds}});
     }
 
     async GetComments(user: IUser): Promise<ICommentInfo[]> {
