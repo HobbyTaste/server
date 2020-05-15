@@ -9,18 +9,10 @@ import { IUser } from "../types/user";
 import { IHobby, TariffPlans } from "../types/hobby";
 import { hobby_props } from "./data/other.json";
 import { ICommentInfo } from "../types/comment";
+import { HTTP_STATUS } from "../types/http";
 
 const assert: Chai.AssertStatic = chai.assert;
 chai.use(chaiHttp);
-
-export enum HTTP_STATUS {
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    FORBIDDEN = 403,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500,
-    OK = 200,
-}
 
 export let agent: ChaiHttp.Agent = chai.request.agent(server);
 

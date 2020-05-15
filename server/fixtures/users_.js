@@ -20,12 +20,13 @@ module.exports = (collection) => {
             .then(hobbyList => Promise.all(userList.map(async user => {
                 const salt = await bcrypt.genSalt();
                 const hashPassword = await bcrypt.hash(user.password, salt);
-                const userHobbies = hobbyList.filter(hobby => user.hobbies.includes(hobby.email));
-                const userHobbiesId = userHobbies.map(hobby => hobby._id);
+                const userHobbiesIds = hobbyList
+                    .filter(hobby => user.hobbies.includes(hobby.email))
+                    .map(hobby => hobby._id);
                 return collection.updateOne(user, {
                     $set: {
                         "password": hashPassword,
-                        "hobbies": userHobbiesId
+                        "hobbies": userHobbiesIds
                     }
                 })
             }))))

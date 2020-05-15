@@ -26,10 +26,7 @@ module.exports = (collection) => {
                         : null
                     return collection.updateOne(comment, {
                         $set: {
-                            "author": {
-                                "type": comment.author.type,
-                                "id": author._id
-                            },
+                            "author.id": author._id,
                             "relatedComment": relatedComment ? relatedComment._id : null
                         }
                     })

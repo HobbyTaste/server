@@ -6,8 +6,7 @@ import bcrypt from 'bcrypt'
 import config from 'config'
 import {Hobby} from "../models";
 import {uploadFileToS3} from "../utils/aws";
-
-const ObjectId = require("mongoose").Types.ObjectId;
+import {HTTP_STATUS} from "../types/http";
 
 
 export default class ProviderService {
@@ -25,13 +24,13 @@ export default class ProviderService {
 
     async CreateProvider(profile: Partial<IProvider>, file?: Express.Multer.File) {
         if (!profile.email) {
-            throw {status: 400, message: 'Email обязателен'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Email обязателен'}
         }
         const provider = await this.Provider.findOne({
             $or: [{email: profile.email}, {name: profile.name}, {phone: profile.phone}]
         });
         if (provider) {
-            throw {status: 400, message: 'Такой пользователь уже существует'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if (file) {
             profile.avatar = await uploadFileToS3('provider', file);
@@ -43,11 +42,11 @@ export default class ProviderService {
     async LoginProvider(email: string, password: string) {
         const provider = await this.Provider.findOne({email});
         if (!provider) {
-            throw {status: 400, message: 'Неверный логин'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный логин'}
         }
         const isTruePassword = await provider.checkPasswords(password);
         if (!isTruePassword) {
-            throw {status: 400, message: 'Неверный пароль'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный пароль'}
         }
         return provider;
     }
@@ -55,7 +54,7 @@ export default class ProviderService {
     async ProviderInfo(providerId: string): Promise<Partial<IProvider>> {
         const provider = await this.Provider.findById(providerId);
         if (!provider) {
-            throw {status: 404, message: 'Не найден такой пользователь'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Не найден такой пользователь'}
         }
         const {_id: id, password, ...restProperties} = provider;
         return {id, ...restProperties}
@@ -92,11 +91,11 @@ export default class ProviderService {
 
     async HobbySubscribe(provider: IProvider, hobbyId: string) {
         if (!hobbyId) {
-            throw {status: 400, message: 'Необходимо указать id хобби для подписки'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Необходимо указать id хобби для подписки'}
         }
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Такого хобби не найдено'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Такого хобби не найдено'}
         }
 
         const subscribed = hobby.providerSubscribers.find(id => id == provider._id);
@@ -108,5 +107,10 @@ export default class ProviderService {
             : provider.followedHobbies.concat(hobbyId);
         await this.Hobby.findByIdAndUpdate(hobbyId, {providerSubscribers: nextProviderSubscribers});
         return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
+    }
+
+    async GetFollowedHobbies(provider: IProvider) {
+        const hobbyIds = provider.followedHobbies;
+        return this.Hobby.findById({$in: hobbyIds});
     }
 }

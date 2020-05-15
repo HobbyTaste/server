@@ -10,6 +10,7 @@
     "shortDescription": "football",
     "owner": "sport@test.com",
     "subscribers": ["alice@test.com", "bob@test.com"],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "sport",
     "website": "www.sport-football.com",
@@ -48,6 +49,7 @@
     "shortDescription": "piano",
     "owner": "music@test.com",
     "subscribers": ["bob@test.com", "caroline@test.com"],
+    "providerSubscribers": ["sport@test.com", "music@test.com"],
     "avatar": "",
     "category": "music",
     "website": "www.sport-football.com",
@@ -85,6 +87,7 @@
     "shortDescription": "football",
     "owner": "sport@test.com",
     "subscribers": [],
+    "providerSubscribers": ["music@test.com"],
     "avatar": "",
     "category": "sport",
     "website": null,
@@ -119,11 +122,11 @@
       }
     ],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Школа танцев",
     "phone": "+79009009393",
     "email": "sport-dancing@test.com",
@@ -134,6 +137,7 @@
     "shortDescription": "dancing",
     "owner": "sport@test.com",
     "subscribers": [],
+    "providerSubscribers": ["music@test.com"],
     "avatar": "",
     "category": "sport",
     "website": "www.sport-football.com",
@@ -162,11 +166,11 @@
       }
     ],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Игра на барабанах",
     "phone": "+79009009494",
     "email": "music-drums@test.com",
@@ -177,6 +181,7 @@
     "shortDescription": "drum",
     "owner": "music@test.com",
     "subscribers": [],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "music",
     "website": null,
@@ -198,11 +203,11 @@
     },
     "monetization": [],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Туры на Алтай",
     "phone": "+79009009595",
     "email": "travel-altai@test.com",
@@ -213,6 +218,7 @@
     "shortDescription": "altai",
     "owner": "travel@test.com",
     "subscribers": [],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "travel",
     "website": "www.travel-altai.com",
@@ -234,5 +240,5 @@
     },
     "monetization": [],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-}
+  }
 ]

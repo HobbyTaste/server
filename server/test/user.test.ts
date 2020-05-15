@@ -11,7 +11,7 @@ import users from "./data/users.json";
 import other_data from "./data/other.json";
 import User from "../models/user";
 import * as utils from "./utils";
-import { HTTP_STATUS } from "./utils";
+import { HTTP_STATUS } from "../types/http";
 
 const assert: Chai.AssertStatic = chai.assert;
 chai.use(chaiHttp);
