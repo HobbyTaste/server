@@ -6,8 +6,9 @@ import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
 import {HTTP_STATUS} from "../types/http";
-const ObjectId = require('mongoose').Types.ObjectId;
 
+
+const ObjectId = require("mongoose").Types.ObjectId;
 
 export default class UserService {
     Hobby: IHobbyModel;

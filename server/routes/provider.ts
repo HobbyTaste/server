@@ -116,6 +116,21 @@ providerRouter.get('/hobbies', async (req: Request, res: Response) => {
 });
 
 /**
+ * Комментарии пользователей ко всем хобби партнера
+ */
+providerRouter.get('/comments', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(400).send('Пользователь не авторизован');
+        return;
+    }
+    try {
+        res.json(await ProviderServiceInstance.GetComments(req.session.provider));
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+/**
  * Подписка на хобби
  */
 providerRouter.get('/subscribe', async (req: Request, res: Response) => {

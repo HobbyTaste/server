@@ -15,5 +15,32 @@
     "user_update": {
         "password": "2222",
         "email": "updated_user@test.com"
-    }
+    },
+
+    "hobby_props": [
+        "label",
+        "phone",
+        "email",
+        "website",
+        "contacts",
+        "address",
+        "location",
+        "metroStation",
+        "metroId",
+        "description",
+        "shortDescription",
+        "imageUrl",
+        "avatar",
+        "category",
+        "rating",
+        "parking",
+        "equipment",
+        "novice",
+        "children",
+        "facilities",
+        "special",
+        "price",
+        "monetization",
+        "workTime"
+    ]
 }

@@ -2,12 +2,10 @@ import chai from "chai";
 import "mocha";
 import shell from "shelljs";
 import chaiHttp from "chai-http";
-import mongoose from "mongoose";
-import nock from "nock";
 
-import {IHobby} from "../types/hobby";
-import {IProvider} from "../types/provider";
-import {IUser} from "../types/user";
+import { IHobby } from "../types/hobby";
+import { IProvider } from "../types/provider";
+import { IUser } from "../types/user";
 import hobbies from "../fixtures/hobbies.json";
 import users from "./data/users.json";
 import other_data from "./data/other.json";
@@ -23,14 +21,6 @@ describe("Work with user and hobbies", function() {
 
     before(() => {
         shell.exec("node tasks/fixtures.js >/dev/null");
-        nock(/http:\/\/127.0.0.1:\d+/, { allowUnmocked: true })
-            .persist()
-            .get("/restapi/user/cabinet")
-            .reply(200, "Nock притворяется, что пользователь успешно зашёл в кабинет");
-    });
-
-    after(() => {
-        nock.cleanAll();
     });
 
     it("should create user", async () => {
@@ -41,11 +31,21 @@ describe("Work with user and hobbies", function() {
         await utils.logout_user();
     });
 
-    it("should create another user", async () => {
-        await utils.create_user(users[1]);
+    it("should not create user due to non-unique email", async () => {
+        const changed_user = {
+            ...users[1],
+            email: users[0].email,
+        };
+        const res: ChaiHttp.Response = await utils.agent
+            .post("/restapi/user/create")
+            .set("csrf-token", process.env.csrfToken || "")
+            .send(changed_user);
+
+        assert.equal(res.status, HTTP_STATUS.BAD_REQUEST, "Checking email uniqueness failed");
     });
 
-    it("should logout from another user", async () => {
+    it("should create another user", async () => {
+        await utils.create_user(users[1]);
         await utils.logout_user();
     });
 
@@ -60,23 +60,20 @@ describe("Work with user and hobbies", function() {
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
         const { id, ...response_user } = res.body;
-        const { password, hobbies, ...rest_data_user } = users[0];
+        const { password, hobbies, comments, ...rest_data_user } = users[0];
         assert.deepEqual<Partial<IUser>>(rest_data_user, response_user, "Wrong info about current (logged in) user");
     });
 
     it("should get info about other (not logged in) user", async () => {
         const user = await User.findOne({ email: users[1].email });
-        if (!user) {
-            assert.fail("Desired user was not found");
-        }
         const res: ChaiHttp.Response = await utils.agent
             .get("/restapi/user/info")
-            .query({ id: user._id.toHexString() })
+            .query({ id: user?._id.toHexString() })
             .set("csrf-token", process.env.csrfToken || "");
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
         const { id, ...response_user } = res.body;
-        const { password, hobbies, ...rest_data_another_user } = users[1];
+        const { password, hobbies, comments, ...rest_data_another_user } = users[1];
         assert.deepEqual<Partial<IProvider>>(response_user, rest_data_another_user, "Wrong info about other user");
     });
 
@@ -98,12 +95,9 @@ describe("Work with user and hobbies", function() {
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
         const user = await User.findOne({ email: other_data.user_update.email });
-        if (!user) {
-            assert.fail("User with updated email was not found in database");
-        }
         const rest_props = {
-            email: user.email,
-            name: user.name,
+            email: user?.email,
+            name: user?.name,
         };
         assert.deepEqual<Partial<IUser>>(
             rest_props,
@@ -114,16 +108,16 @@ describe("Work with user and hobbies", function() {
 
     it("should subscribe user to hobbies", async () => {
         await Promise.all([
-            utils.create_subscriber(hobbies[0]),
-            utils.create_subscriber(hobbies[2]),
-            utils.create_subscriber(hobbies[5]),
+            utils.subscribe(hobbies[0]),
+            utils.subscribe(hobbies[2]),
+            utils.subscribe(hobbies[5]),
         ]);
         const user = await User.findOne({ email: other_data.user_update.email });
         const user_id = user?._id.toHexString();
         await Promise.all([
-            utils.create_subscribe_checker(hobbies[0], user_id),
-            utils.create_subscribe_checker(hobbies[2], user_id),
-            utils.create_subscribe_checker(hobbies[5], user_id),
+            utils.check_subscription(hobbies[0], user_id),
+            utils.check_subscription(hobbies[2], user_id),
+            utils.check_subscription(hobbies[5], user_id),
         ]);
     });
 
@@ -162,8 +156,8 @@ describe("Work with user and hobbies", function() {
         if (!user) {
             assert.fail("User was not found in database");
         }
-        const user_hobby_ids = user.hobbies.map((hobby: any) => {
-            return hobby.toHexString();
+        const user_hobby_ids = user.hobbies.map((hobby_id: any) => {
+            return hobby_id.toHexString();
         });
         assert.sameMembers(hobby_ids, user_hobby_ids, "List of hobby ids is not what was expected");
     });

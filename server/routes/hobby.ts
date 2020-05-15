@@ -94,8 +94,17 @@ hobbyRouter.get('/info', async (req: Request, res: Response) => {
  * id - параметр запроса
  */
 hobbyRouter.post('/edit', async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(403).send('Партнёр не авторизован');
+        return;
+    }
     try {
         const {id} = req.query;
+        const hobbyById = await HobbyServiceInstance.HobbyInfo(id);
+        if (req.session?.provider._id != hobbyById?.owner) {
+            res.status(403).send('Нельзя редактировать чужие хобби');
+            return;
+        }
         const updateParams: IHobby = {...req.body};
         await HobbyServiceInstance.EditHobby(id, updateParams);
         res.end();
