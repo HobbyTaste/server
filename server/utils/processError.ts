@@ -8,7 +8,7 @@ export default (error: IHTTPError | object) => {
         }
     } else {
         return {
-            status: HTTP_STATUS.INTERNAL_ERROR,
+            status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
             message: error
         }
     }

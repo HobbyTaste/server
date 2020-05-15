@@ -8,8 +8,6 @@ import {Hobby} from "../models";
 import {uploadFileToS3} from "../utils/aws";
 import {HTTP_STATUS} from "../types/http";
 
-const ObjectId = require("mongoose").Types.ObjectId;
-
 
 export default class ProviderService {
     Hobby: IHobbyModel;

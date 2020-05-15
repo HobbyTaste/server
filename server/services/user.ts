@@ -1,7 +1,7 @@
 import {IHobbyModel} from "../types/hobby";
 import {IUser, IUserInfo, IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
-import {ICommentModel, ICommentInfo, Participants} from "../types/comment";
+import {ICommentModel, ICommentInfo} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";

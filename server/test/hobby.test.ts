@@ -9,7 +9,7 @@ import hobbies from "../fixtures/hobbies.json";
 import providers from "../fixtures/providers.json";
 import other_data from "./data/other.json";
 import * as utils from "./utils";
-import {HTTP_STATUS} from "../types/http";
+import { HTTP_STATUS } from "../types/http";
 
 const assert: Chai.AssertStatic = chai.assert;
 chai.use(chaiHttp);
