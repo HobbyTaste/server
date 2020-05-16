@@ -34,6 +34,7 @@ export interface ICreateCommentRequest extends Request {
 }
 
 export interface ICommentInfo {
+    id: string,
     userId: string;
     name: string;
     datetime: string;
