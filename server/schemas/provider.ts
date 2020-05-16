@@ -4,7 +4,6 @@ import {IProvider} from "../types/provider";
 const EMAIL_REG_EXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PHONE_REG_EXP = /^\+7\d{10}$/;
 
-
 const ProviderSchema: Schema<IProvider> = new Schema({
     name: {
         type: String,
@@ -12,9 +11,9 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     },
     phone: {
         type: String,
-        required: true,
         trim: true,
         unique: true,
+        sparse: true,
         match: [PHONE_REG_EXP, 'Неверный формат']
     },
     email: {
@@ -35,8 +34,9 @@ const ProviderSchema: Schema<IProvider> = new Schema({
     avatar: {
         type: String,
     },
-    comments: {
-        type: [Schema.Types.ObjectId]
+    followedHobbies: {
+        type: [Schema.Types.ObjectId],
+        default: []
     }
 });
 

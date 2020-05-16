@@ -17,20 +17,17 @@ const getCollection = async (name) => {
 module.exports = (collection) => {
     return collection.find().toArray()
         .then(userList => getCollection('hobbies')
-            .then(hobbyList => getCollection('comments')
-                .then(commentList => Promise.all(userList.map(async user => {
-                    const userComments = commentList.filter(comment => user.comments.includes(comment.temp_id));
-                    const userCommentsId = userComments.map(comment => comment._id);
-                    const salt = await bcrypt.genSalt();
-                    const hashPassword = await bcrypt.hash(user.password, salt);
-                    const userHobbies = hobbyList.filter(hobby => user.hobbies.includes(hobby.email));
-                    const userHobbiesId = userHobbies.map(hobby => hobby._id);
-                    return collection.updateOne(user, {
-                        $set: {
-                            "password": hashPassword,
-                            "hobbies": userHobbiesId,
-                            "comments": userCommentsId
-                        }
-                    })
-                })))))
+            .then(hobbyList => Promise.all(userList.map(async user => {
+                const salt = await bcrypt.genSalt();
+                const hashPassword = await bcrypt.hash(user.password, salt);
+                const userHobbiesIds = hobbyList
+                    .filter(hobby => user.hobbies.includes(hobby.email))
+                    .map(hobby => hobby._id);
+                return collection.updateOne(user, {
+                    $set: {
+                        "password": hashPassword,
+                        "hobbies": userHobbiesIds
+                    }
+                })
+            }))))
 };

@@ -6,7 +6,7 @@
     "avatar" : null,
     "phone" : "+79009009090",
     "info" : "sport events",
-    "comments": [1]
+    "followedHobbies": ["music-piano@test.com"]
   },
   {
     "name" : "Music Organization",
@@ -15,7 +15,7 @@
     "avatar" : null,
     "phone" : "+78008008080",
     "info" : "music events",
-    "comments": []
+    "followedHobbies": ["sport-football-team@test.com", "sport-dancing@test.com", "music-piano@test.com"]
   },
   {
     "name" : "Travel Agency",
@@ -24,6 +24,6 @@
     "avatar" : null,
     "phone" : "+77007007070",
     "info" : "travel events",
-    "comments": []
+    "followedHobbies": []
   }
 ]

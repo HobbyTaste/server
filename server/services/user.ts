@@ -5,7 +5,10 @@ import {ICommentModel, ICommentInfo} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {uploadFileToS3} from "../utils/aws";
+import {HTTP_STATUS} from "../types/http";
 
+
+const ObjectId = require("mongoose").Types.ObjectId;
 
 export default class UserService {
     Hobby: IHobbyModel;
@@ -23,22 +26,22 @@ export default class UserService {
     async LoginUser(email: string, password: string) {
         const user = await this.User.findOne({email});
         if (!user) {
-            throw {status: 400, message: 'Неверный логин'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный логин'}
         }
         const isTruePassword = await user.checkPasswords(password);
         if (!isTruePassword) {
-            throw {status: 400, message: 'Неверный пароль'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный пароль'}
         }
         return user
     }
 
     async CreateUser(profile: Partial<IUser>, file?: Express.Multer.File) {
         if (!profile.email) {
-            throw {status: 400, message: 'Email обязателен для регистрации'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Email обязателен для регистрации'}
         }
         const user = await this.User.findOne({email: profile.email});
         if (user) {
-            throw {status: 400, message: 'Такой пользователь уже существует'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if (file) {
             profile.avatar = await uploadFileToS3('users', file);
@@ -61,21 +64,27 @@ export default class UserService {
     async UserInfo(userId: string): Promise<IUserInfo> {
         const user = await this.User.findById(userId);
         if (!user) {
-            throw {status: 404, message: 'Не найден такой пользователь'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Не найден такой пользователь'}
         }
         return user.repr();
     }
 
     async HobbySubscribe(user: IUser, hobbyId?: string) {
         if (!hobbyId) {
-            throw {status: 400, message: 'Необходимо указать id хобби для подписки'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Необходимо указать id хобби для подписки'}
         }
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Такого хобби не найдено'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Такого хобби не найдено'}
         }
-        const nextHobbies = [...new Set(user.hobbies.concat(hobbyId))];
-        const nextSubscribers = [...new Set(hobby.subscribers.concat(user._id))];
+
+        const subscribed = hobby.subscribers.find(id => id == user._id);
+        const nextHobbies = subscribed
+            ? user.hobbies.filter(id => id != hobbyId)
+            : user.hobbies.concat(hobbyId);
+        const nextSubscribers = subscribed
+            ? hobby.subscribers.filter(id => id != user._id)
+            : hobby.subscribers.concat(user._id);
 
         await this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers});
         return this.User.findByIdAndUpdate(user._id, {hobbies: nextHobbies}, {new: true});
@@ -83,22 +92,20 @@ export default class UserService {
 
     async GetHobbies(user: IUser) {
         const {hobbies: hobbyIds} = user;
-        return this.Hobby.find({_id: {$in: hobbyIds}});
+        return this.Hobby.findById({$in: hobbyIds});
     }
 
     async GetComments(user: IUser): Promise<ICommentInfo[]> {
-        // Здесь не просто так стоит "==", а не "===", это не ошибка.
-        // Иначе возникают проблемы из-за того, что user._id - строка, а comment.author.id - ObjectID.
-        const comments = (await this.Comment.find()).filter(comment => comment.author.id == user._id);
+        const comments = await this.Comment.find({'author.id': ObjectId(user._id)})
         return Promise.all(comments.map(comment => comment.repr()));
     }
 
     async AvatarUpload(user: IUser, file?: Express.Multer.File) {
         if (!file) {
-            throw {status: 400, message: 'Нет файла'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Нет файла'}
         }
         if (!file.mimetype.match(/images/)) {
-            throw {status: 400, message: 'Неверный формат изображения'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный формат изображения'}
         }
         const url = await uploadFileToS3('users', file);
         return this.User.findByIdAndUpdate(user._id, {avatar: url}, {new: true});

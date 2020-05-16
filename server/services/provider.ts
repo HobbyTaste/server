@@ -1,11 +1,12 @@
-import {IHobbyModel} from "../types/hobby";
+import {IHobbyModel, IHobby} from "../types/hobby";
 import {IUserModel} from "../types/user";
 import {IProviderModel, IProvider} from "../types/provider";
-import {ICommentModel} from "../types/comment";
+import {ICommentModel, ICommentInfo, Participants} from "../types/comment";
 import bcrypt from 'bcrypt'
 import config from 'config'
 import {Hobby} from "../models";
 import {uploadFileToS3} from "../utils/aws";
+import {HTTP_STATUS} from "../types/http";
 
 
 export default class ProviderService {
@@ -23,11 +24,13 @@ export default class ProviderService {
 
     async CreateProvider(profile: Partial<IProvider>, file?: Express.Multer.File) {
         if (!profile.email) {
-            throw {status: 400, message: 'Email обязателен'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Email обязателен'}
         }
-        const provider = await this.Provider.findOne({email: profile.email});
+        const provider = await this.Provider.findOne({
+            $or: [{email: profile.email}, {name: profile.name}, {phone: profile.phone}]
+        });
         if (provider) {
-            throw {status: 400, message: 'Такой пользователь уже существует'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if (file) {
             profile.avatar = await uploadFileToS3('provider', file);
@@ -39,11 +42,11 @@ export default class ProviderService {
     async LoginProvider(email: string, password: string) {
         const provider = await this.Provider.findOne({email});
         if (!provider) {
-            throw {status: 400, message: 'Неверный логин'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный логин'}
         }
         const isTruePassword = await provider.checkPasswords(password);
         if (!isTruePassword) {
-            throw {status: 400, message: 'Неверный пароль'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Неверный пароль'}
         }
         return provider;
     }
@@ -51,7 +54,7 @@ export default class ProviderService {
     async ProviderInfo(providerId: string): Promise<Partial<IProvider>> {
         const provider = await this.Provider.findById(providerId);
         if (!provider) {
-            throw {status: 404, message: 'Не найден такой пользователь'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Не найден такой пользователь'}
         }
         const {_id: id, password, ...restProperties} = provider;
         return {id, ...restProperties}
@@ -60,6 +63,12 @@ export default class ProviderService {
     async EditProvider(providerId: string, nextData: Partial<IProvider>, file?: Express.Multer.File) {
         if (file) {
             nextData.avatar = await uploadFileToS3('partner', file);
+        }
+        const provider = await this.Provider.findOne({
+            $or: [{email: nextData.email}, {name: nextData.name}, {phone: nextData.phone}]
+        });
+        if (provider) {
+            throw {status: 400, message: 'Такой пользователь уже существует'}
         }
         if ('password' in nextData) {
             const salt = await bcrypt.genSalt(Number(config.get('saltWorkFactor')));
@@ -70,5 +79,38 @@ export default class ProviderService {
 
     async GetHobbies(providerId: string) {
         return Hobby.find({owner: providerId});
+    }
+
+    async GetComments(provider: IProvider): Promise<ICommentInfo[]> {
+        const hobbies = await this.GetHobbies(provider._id);
+        const commentIds = hobbies.reduce((acc: string[], hobby: IHobby) => acc.concat(hobby.comments), []);
+        let comments = await this.Comment.find({_id: {$in: commentIds}});
+        comments = comments.filter(comment => comment.author.type === Participants.user);
+        return Promise.all(comments.map(comment => comment.repr()))
+    }
+
+    async HobbySubscribe(provider: IProvider, hobbyId: string) {
+        if (!hobbyId) {
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Необходимо указать id хобби для подписки'}
+        }
+        const hobby = await this.Hobby.findById(hobbyId);
+        if (!hobby) {
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Такого хобби не найдено'}
+        }
+
+        const subscribed = hobby.providerSubscribers.find(id => id == provider._id);
+        const nextProviderSubscribers = subscribed
+            ? hobby.providerSubscribers.filter(id => id != provider._id)
+            : hobby.providerSubscribers.concat(provider._id);
+        const nextFollowedHobbies = subscribed
+            ? provider.followedHobbies.filter(id => id != hobbyId)
+            : provider.followedHobbies.concat(hobbyId);
+        await this.Hobby.findByIdAndUpdate(hobbyId, {providerSubscribers: nextProviderSubscribers});
+        return this.Provider.findByIdAndUpdate(provider._id, {followedHobbies: nextFollowedHobbies}, {new: true})
+    }
+
+    async GetFollowedHobbies(provider: IProvider) {
+        const hobbyIds = provider.followedHobbies;
+        return this.Hobby.findById({$in: hobbyIds});
     }
 }

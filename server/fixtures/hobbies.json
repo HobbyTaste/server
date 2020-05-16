@@ -8,9 +8,9 @@
     "metroId": 136,
     "description": "football classes",
     "shortDescription": "football",
-    "imageUrl": "",
     "owner": "sport@test.com",
     "subscribers": ["alice@test.com", "bob@test.com"],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "sport",
     "website": "www.sport-football.com",
@@ -47,9 +47,9 @@
     "metroId": 86,
     "description": "piano classes",
     "shortDescription": "piano",
-    "imageUrl": "",
     "owner": "music@test.com",
     "subscribers": ["bob@test.com", "caroline@test.com"],
+    "providerSubscribers": ["sport@test.com", "music@test.com"],
     "avatar": "",
     "category": "music",
     "website": "www.sport-football.com",
@@ -85,9 +85,9 @@
     "metroId": 40,
     "description": "Amateur football team",
     "shortDescription": "football",
-    "imageUrl": "",
     "owner": "sport@test.com",
     "subscribers": [],
+    "providerSubscribers": ["music@test.com"],
     "avatar": "",
     "category": "sport",
     "website": null,
@@ -122,11 +122,11 @@
       }
     ],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Школа танцев",
     "phone": "+79009009393",
     "email": "sport-dancing@test.com",
@@ -135,9 +135,9 @@
     "metroId": 136,
     "description": "dance classes",
     "shortDescription": "dancing",
-    "imageUrl": "",
     "owner": "sport@test.com",
     "subscribers": [],
+    "providerSubscribers": ["music@test.com"],
     "avatar": "",
     "category": "sport",
     "website": "www.sport-football.com",
@@ -166,11 +166,11 @@
       }
     ],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Игра на барабанах",
     "phone": "+79009009494",
     "email": "music-drums@test.com",
@@ -179,9 +179,9 @@
     "metroId": 29,
     "description": "drum classes",
     "shortDescription": "drum",
-    "imageUrl": "",
     "owner": "music@test.com",
     "subscribers": [],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "music",
     "website": null,
@@ -203,11 +203,11 @@
     },
     "monetization": [],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-},
+  },
 
 
 
-{
+  {
     "label": "Туры на Алтай",
     "phone": "+79009009595",
     "email": "travel-altai@test.com",
@@ -216,9 +216,9 @@
     "metroId": 136,
     "description": "tour groups in Altai mountains",
     "shortDescription": "altai",
-    "imageUrl": "",
     "owner": "travel@test.com",
     "subscribers": [],
+    "providerSubscribers": [],
     "avatar": "",
     "category": "travel",
     "website": "www.travel-altai.com",
@@ -240,5 +240,5 @@
     },
     "monetization": [],
     "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
-}
+  }
 ]

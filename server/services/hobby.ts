@@ -1,9 +1,10 @@
-import {IHobby, IHobbyModel} from "../types/hobby";
+import {IHobby, IHobbyModel, TariffPlans} from "../types/hobby";
 import {IUserModel} from "../types/user";
 import {IProviderModel} from "../types/provider";
 import {ICommentModel, IComment} from "../types/comment";
 import {isNil} from 'lodash';
 import {uploadFileToS3} from "../utils/aws";
+import {HTTP_STATUS} from "../types/http";
 
 
 export default class HobbyService {
@@ -22,11 +23,10 @@ export default class HobbyService {
     async GetComments(hobbyId: string) {
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Хобби не найдено'};
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Хобби не найдено'};
         }
         const comments = await hobby.userComments();
-        const result = comments.map((comment: IComment) => comment.repr());
-        return Promise.all(result)
+        return Promise.all(comments.map((comment: IComment) => comment.repr()))
     }
 
     async AddHobby(hobbyInfo: Partial<IHobby>, providerId: string, file?: Express.Multer.File) {
@@ -44,7 +44,7 @@ export default class HobbyService {
                 ? this.Hobby.findByLabel(hobbyInfo.label)
                 : this.Hobby.findByLabelWithGeo(hobbyInfo.label, numberMetroId);
         } else {
-            throw {status: 400, message: `typeof label = ${typeof hobbyInfo.label}`}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: `typeof label = ${typeof hobbyInfo.label}`}
         }
     }
 
@@ -60,12 +60,20 @@ export default class HobbyService {
         return this.Hobby.findByIdAndUpdate(hobbyId, updateParams);
     }
 
-    async Subscribe(hobbyId: string, userId: string) {
+    async AddTariff(hobbyId: string, providerId: string, tariff: TariffPlans) {
         const hobby = await this.Hobby.findById(hobbyId);
         if (!hobby) {
-            throw {status: 404, message: 'Хобби не найдено'}
+            throw {status: HTTP_STATUS.NOT_FOUND, message: 'Хобби не найдено'}
         }
-        const nextSubscribers = hobby.subscribers.concat(userId);
-        return this.Hobby.findByIdAndUpdate(hobbyId, {subscribers: nextSubscribers})
+        if (hobby.owner != providerId) {
+            throw {status: HTTP_STATUS.FORBIDDEN, message: 'Можно подключать только для своих хобби'}
+        }
+        const nextMonetization = hobby.monetization.concat({
+            tariff,
+            activationDate: '',
+            expirationDate: '',
+            cost: 0
+        });
+        return this.Hobby.findByIdAndUpdate(hobbyId, {monetization: nextMonetization})
     }
 }
