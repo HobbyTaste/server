@@ -107,11 +107,9 @@ describe("Work with user and hobbies", function() {
     });
 
     it("should subscribe user to hobbies", async () => {
-        await Promise.all([
-            utils.subscribe(hobbies[0]),
-            utils.subscribe(hobbies[2]),
-            utils.subscribe(hobbies[5]),
-        ]);
+        await utils.subscribe(hobbies[0]);
+        await utils.subscribe(hobbies[2]);
+        await utils.subscribe(hobbies[5]);
         const user = await User.findOne({ email: other_data.user_update.email });
         const user_id = user?._id.toHexString();
         await Promise.all([
@@ -149,6 +147,7 @@ describe("Work with user and hobbies", function() {
             .set("csrf-token", process.env.csrfToken || "");
 
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
+        console.log(res.body);
         const hobby_ids = res.body.map((hobby: Partial<IHobby>) => {
             return hobby._id;
         });

@@ -111,6 +111,6 @@ export default class ProviderService {
 
     async GetFollowedHobbies(provider: IProvider) {
         const hobbyIds = provider.followedHobbies;
-        return this.Hobby.findById({$in: hobbyIds});
+        return this.Hobby.find({_id: {$in: hobbyIds}});
     }
 }

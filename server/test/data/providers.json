@@ -6,7 +6,7 @@
         "avatar": "",
         "phone": "+76006006060",
         "info": "testing sport events",
-        "comments": []
+        "followedHobbies": []
     },
     {
         "name": "Test Music Organization",
@@ -15,6 +15,6 @@
         "avatar": "",
         "phone": "+75005005050",
         "info": "testing music events",
-        "comments": []
+        "followedHobbies": []
     }
 ]
