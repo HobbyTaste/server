@@ -27,7 +27,7 @@ export default class ProviderService {
             throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Email обязателен'}
         }
         const provider = await this.Provider.findOne({
-            $or: [{email: profile.email}, {name: profile.name}, {phone: profile.phone}]
+            $or: [{email: profile.email}, {name: profile.name}, {$and: [{phone: {$exists: true}}, {phone: profile.phone}]}]
         });
         if (provider) {
             throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
