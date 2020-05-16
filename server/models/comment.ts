@@ -27,6 +27,7 @@ CommentSchema.methods.repr = async function() {
             const answer = await mongoose.model('Comment').findById(this.relatedComment) as IComment;
             const provider = await mongoose.model('Provider').findById(answer.author.id) as IProvider;
             answerInfo = {
+                id: answer._id,
                 providerId: answer.author.id,
                 name: provider.name,
                 datetime: answer.datetime,
@@ -36,6 +37,7 @@ CommentSchema.methods.repr = async function() {
         }
     }
     return {
+        id: this._id,
         userId: this.author.id,
         name: author?.name || 'undefined',
         datetime: this.datetime,
