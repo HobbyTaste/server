@@ -42,6 +42,7 @@ export interface ICommentInfo {
     text: string;
     evaluation?: number;
     answer?: {
+        id: string,
         providerId: string;
         name: string;
         datetime: string;
