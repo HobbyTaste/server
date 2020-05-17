@@ -47,10 +47,16 @@ export async function login_provider(email: string | undefined, password: string
 }
 
 export async function add_hobby(hobby: Partial<IHobby>): Promise<void> {
+    const modified_hobby = {
+        ...hobby,
+        workTime: JSON.stringify(hobby.workTime),
+        price: JSON.stringify(hobby.price),
+        contacts: JSON.stringify(hobby.contacts),
+    };
     const res: ChaiHttp.Response = await agent
         .post("/restapi/hobby/add")
         .set("csrf-token", process.env.csrfToken || "")
-        .send(hobby);
+        .send(modified_hobby);
     assert.equal(res.status, HTTP_STATUS.OK, "Hobby was not added to database");
     const { owner, monetization, ...rest_props } = hobby;
     const hobbies = await Hobby.find(rest_props);
