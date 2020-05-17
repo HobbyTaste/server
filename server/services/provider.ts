@@ -9,6 +9,17 @@ import {uploadFileToS3} from "../utils/aws";
 import {HTTP_STATUS} from "../types/http";
 
 
+interface ICommentRelatedIds {
+    hobbyId: string,
+    selfId: string
+}
+
+interface IProviderCommentsInfo {
+    commentsInfo: ICommentInfo[],
+    commentsIds: ICommentRelatedIds[]
+}
+
+
 export default class ProviderService {
     Hobby: IHobbyModel;
     User: IUserModel;
@@ -81,12 +92,18 @@ export default class ProviderService {
         return Hobby.find({owner: providerId});
     }
 
-    async GetComments(provider: IProvider): Promise<ICommentInfo[]> {
+    async GetComments(provider: IProvider): Promise<IProviderCommentsInfo> {
         const hobbies = await this.GetHobbies(provider._id);
-        const commentIds = hobbies.reduce((acc: string[], hobby: IHobby) => acc.concat(hobby.comments), []);
-        let comments = await this.Comment.find({_id: {$in: commentIds}});
+        const commentRelatedIds = hobbies.reduce(
+            (acc: ICommentRelatedIds[], hobby: IHobby) => 
+                acc.concat(hobby.comments.map(commentId => ({selfId: commentId, hobbyId: hobby._id}))),
+            []
+        );
+        let comments = await this.Comment.find({_id: {$in: commentRelatedIds.map(Ids => Ids.selfId)}});
         comments = comments.filter(comment => comment.author.type === Participants.user);
-        return Promise.all(comments.map(comment => comment.repr()))
+        const commentsFilteredIds = comments.map(comment => comment._id.toString());
+        const commentsInfo = await Promise.all(comments.map(comment => comment.repr()));       
+        return {commentsInfo, commentsIds: commentRelatedIds.filter(Ids => commentsFilteredIds.includes(Ids.selfId.toString()))};
     }
 
     async HobbySubscribe(provider: IProvider, hobbyId: string) {

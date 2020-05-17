@@ -21,7 +21,8 @@ hobbyRouter.post('/add', upload.single('avatar'), async (req: Request, res: Resp
         return;
     }
     try {
-        const hobbyInfo: Partial<IHobby> = {...req.body};
+        const hobbyInfo: Partial<IHobby> = {...req.body, contacts: JSON.parse(req.body.contacts), 
+            workTime: JSON.parse(req.body.workTime), price: JSON.parse(req.body.price)};
         const file = req.file;
         const {_id: owner} = req.session.provider;
         await HobbyServiceInstance.AddHobby(hobbyInfo, owner, file);

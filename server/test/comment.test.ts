@@ -77,9 +77,10 @@ describe("Work with comments", function() {
         await utils.login_provider(providers[1].email, providers[1].password);
         const res = await utils.agent.get("/restapi/provider/comments").set("csrf-token", process.env.csrfToken || "");
         assert.equal(res.status, HTTP_STATUS.OK, "Status code is not 200");
-        assert.lengthOf(res.body, 4, "The number of comments is too big or too small, not right");
+        assert.lengthOf(res.body.commentsInfo, 4, "The number of comments is too big or too small, not right");
+        assert.lengthOf(res.body.commentsIds, 4, "The number of commentsIds is too big or too small, not right");
         utils.check_comments_props(
-            res.body,
+            res.body.commentsInfo,
             [comments[2]],
             [data_comments[0], data_comments[3]],
             [data_comments[1]],
