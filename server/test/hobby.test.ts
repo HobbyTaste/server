@@ -5,7 +5,7 @@ import shell from "shelljs";
 
 import Hobby from "../models/hobby";
 import { IHobby } from "../types/hobby";
-import hobbies from "../fixtures/hobbies.json";
+import hobbies from "../fixtures/hobbies/development.json";
 import providers from "../fixtures/providers.json";
 import other_data from "./data/other.json";
 import * as utils from "./utils";
