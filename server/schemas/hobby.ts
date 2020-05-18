@@ -67,7 +67,8 @@ const HobbySchema: Schema<IHobby> = new Schema({
         type: String,
     },
     rating: {
-        type: Number
+        type: Number,
+        default: 0
     },
     comments: {
         type: [Schema.Types.ObjectId],

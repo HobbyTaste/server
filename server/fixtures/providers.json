@@ -1,5 +1,14 @@
 [
   {
+    "name" : "Super Provider",
+    "password" : "superprovider",
+    "email" : "superprovider@test.com",
+    "avatar" : null,
+    "phone" : "+79009001010",
+    "info" : "owns everything without owner",
+    "followedHobbies": []
+  },
+  {
     "name" : "Sport Organization",
     "password" : "sport",
     "email" : "sport@test.com",

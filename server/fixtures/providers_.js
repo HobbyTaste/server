@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const {MongoClient} = require('mongodb');
-const dbHost = require('config').get('dbHost');
+const dbHost = process.env.dbHost || require('config').get('dbHost');
 
 const getCollection = async (name) => {
     const client = new MongoClient(dbHost, {

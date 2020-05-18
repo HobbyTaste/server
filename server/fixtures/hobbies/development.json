@@ -1,0 +1,277 @@
+[
+  {
+    "label": "Футбольная секция",
+    "phone": "+79009009191",
+    "email": "sport-football@test.com",
+    "address": "1-я Магистральная ул., 12",
+    "metroStation": "Третьяковская",
+    "metroId": 136,
+    "description": "football classes",
+    "shortDescription": "football",
+    "owner": "sport@test.com",
+    "subscribers": [
+      "alice@test.com",
+      "bob@test.com"
+    ],
+    "providerSubscribers": [],
+    "avatar": "",
+    "category": "sport_game",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "vk": "vk.com/sport-football",
+      "instagram": "instagram.com/sport-football",
+      "facebook": "facebook.com/sport-football"
+    },
+    "location": "3d floor",
+    "rating": 4.4,
+    "comments": [
+      0,
+      1
+    ],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  },
+  {
+    "label": "Уроки фортепиано",
+    "phone": "+78008008181",
+    "email": "music-piano@test.com",
+    "address": "Рубцовская наб., 11/2",
+    "metroStation": "Медведково",
+    "metroId": 86,
+    "description": "piano classes",
+    "shortDescription": "piano",
+    "owner": "music@test.com",
+    "subscribers": [
+      "bob@test.com",
+      "caroline@test.com"
+    ],
+    "providerSubscribers": [
+      "sport@test.com",
+      "music@test.com"
+    ],
+    "avatar": "",
+    "category": "music",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "vk": "vk.com/music-piano",
+      "instagram": "instagram.com/music-piano"
+    },
+    "location": "3d floor",
+    "rating": 4.6,
+    "comments": [
+      2
+    ],
+    "parking": false,
+    "equipment": true,
+    "novice": true,
+    "children": true,
+    "facilities": "",
+    "special": "",
+    "price": {
+      "title": 1500,
+      "priceList": "first lesson - free, daily - 300, monthly - 1500"
+    },
+    "monetization": [],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  },
+  {
+    "label": "Любительская футбольная команда",
+    "phone": "+79009009292",
+    "email": "sport-football-team@test.com",
+    "address": "11-я Парковая ул., 49",
+    "metroStation": "Щёлковская",
+    "metroId": 40,
+    "description": "Amateur football team",
+    "shortDescription": "football",
+    "owner": "sport@test.com",
+    "subscribers": [],
+    "providerSubscribers": [
+      "music@test.com"
+    ],
+    "avatar": "",
+    "category": "sport_game",
+    "website": null,
+    "contacts": {
+      "vk": "vk.com/sport-football-team"
+    },
+    "location": "3d floor",
+    "rating": 3.8,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [
+      {
+        "tariff": 0,
+        "activationDate": "22.03.2020",
+        "expirationDate": "22.04.2020",
+        "cost": 1000
+      },
+      {
+        "tariff": 1,
+        "activationDate": "23.03.2020",
+        "expirationDate": "01.04.2020",
+        "cost": 350
+      }
+    ],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  },
+  {
+    "label": "Школа танцев",
+    "phone": "+79009009393",
+    "email": "sport-dancing@test.com",
+    "address": "1-й Кадашёвский переулок, 3с1",
+    "metroStation": "Третьяковская",
+    "metroId": 136,
+    "description": "dance classes",
+    "shortDescription": "dancing",
+    "owner": "sport@test.com",
+    "subscribers": [],
+    "providerSubscribers": [
+      "music@test.com"
+    ],
+    "avatar": "",
+    "category": "dance",
+    "website": "www.sport-football.com",
+    "contacts": {
+      "instagram": "instagram.com/sport-dancing"
+    },
+    "location": "3d floor",
+    "rating": 4,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [
+      {
+        "tariff": 0,
+        "activationDate": "22.03.2020",
+        "expirationDate": "22.04.2020",
+        "cost": 1000
+      }
+    ],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  },
+  {
+    "label": "Игра на барабанах",
+    "phone": "+79009009494",
+    "email": "music-drums@test.com",
+    "address": "ул. Большая Ордынка, 15",
+    "metroStation": "Новокузнецкая",
+    "metroId": 29,
+    "description": "drum classes",
+    "shortDescription": "drum",
+    "owner": "music@test.com",
+    "subscribers": [],
+    "providerSubscribers": [],
+    "avatar": "",
+    "category": "music",
+    "website": null,
+    "contacts": {
+      "facebook": "facebook.com/music-drums"
+    },
+    "location": "3d floor",
+    "rating": null,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  },
+  {
+    "label": "Туры на Алтай",
+    "phone": "+79009009595",
+    "email": "travel-altai@test.com",
+    "address": "Климентовский переулок, 9/1",
+    "metroStation": "Третьяковская",
+    "metroId": 136,
+    "description": "tour groups in Altai mountains",
+    "shortDescription": "altai",
+    "owner": "travel@test.com",
+    "subscribers": [],
+    "providerSubscribers": [],
+    "avatar": "",
+    "category": "travel",
+    "website": "www.travel-altai.com",
+    "contacts": {
+      "vk": "vk.com/travel-altai"
+    },
+    "location": "3d floor",
+    "rating": 4.9,
+    "comments": [],
+    "parking": true,
+    "equipment": true,
+    "novice": false,
+    "children": true,
+    "facilities": "shower",
+    "special": "indoor shoes only",
+    "price": {
+      "title": 2000,
+      "priceList": "first lesson - free, daily - 400, monthly - 2000"
+    },
+    "monetization": [],
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
+  }
+]
