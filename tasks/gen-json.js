@@ -5,6 +5,16 @@ module.exports = (pathToFixtures) => {
     const csvFilePath = pathToFixtures.concat('/hobbies/demonstration.csv');
     const jsonFilePath = pathToFixtures.concat('/hobbies/development.json');
     const outputFilePath = pathToFixtures.concat('/hobbies.json');
+    if (process.env.NODE_ENV === "test") {
+        fs.copyFile(jsonFilePath, outputFilePath, (error) => {
+            if (error) {
+                console.log("Something went wrong while copying in test environment");
+                return Promise.reject();
+            }
+            console.log("/hobbies/development.json successfully copied to /hobbies.json");
+        })
+        return Promise.resolve();
+    }
     return csv()
         .fromFile(csvFilePath)
         .then((jsonObj_1) => {
