@@ -76,7 +76,7 @@ export default class ProviderService {
             nextData.avatar = await uploadFileToS3('partner', file);
         }
         const provider = await this.Provider.findOne({
-            $or: [{email: nextData.email}, {name: nextData.name}, {phone: nextData.phone}]
+            $or: [{email: nextData.email}, {name: nextData.name}, {$and: [{phone: {$exists: true}}, {phone: nextData.phone}]}]
         });
         if (provider) {
             throw {status: 400, message: 'Такой пользователь уже существует'}
