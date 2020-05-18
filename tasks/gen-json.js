@@ -9,7 +9,7 @@ module.exports = (pathToFixtures) => {
         fs.copyFile(jsonFilePath, outputFilePath, (error) => {
             if (error) {
                 console.log("Something went wrong while copying in test environment");
-                return Promise.reject();
+                throw error;
             }
             console.log("/hobbies/development.json successfully copied to /hobbies.json");
         })
