@@ -9,10 +9,13 @@
     "description": "football classes",
     "shortDescription": "football",
     "owner": "sport@test.com",
-    "subscribers": ["alice@test.com", "bob@test.com"],
+    "subscribers": [
+      "alice@test.com",
+      "bob@test.com"
+    ],
     "providerSubscribers": [],
     "avatar": "",
-    "category": "sport",
+    "category": "sport_game",
     "website": "www.sport-football.com",
     "contacts": {
       "vk": "vk.com/sport-football",
@@ -21,7 +24,10 @@
     },
     "location": "3d floor",
     "rating": 4.4,
-    "comments": [0, 1],
+    "comments": [
+      0,
+      1
+    ],
     "parking": true,
     "equipment": true,
     "novice": false,
@@ -33,11 +39,13 @@
       "priceList": "first lesson - free, daily - 400, monthly - 2000"
     },
     "monetization": [],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   },
-
-
-
   {
     "label": "Уроки фортепиано",
     "phone": "+78008008181",
@@ -48,8 +56,14 @@
     "description": "piano classes",
     "shortDescription": "piano",
     "owner": "music@test.com",
-    "subscribers": ["bob@test.com", "caroline@test.com"],
-    "providerSubscribers": ["sport@test.com", "music@test.com"],
+    "subscribers": [
+      "bob@test.com",
+      "caroline@test.com"
+    ],
+    "providerSubscribers": [
+      "sport@test.com",
+      "music@test.com"
+    ],
     "avatar": "",
     "category": "music",
     "website": "www.sport-football.com",
@@ -59,7 +73,9 @@
     },
     "location": "3d floor",
     "rating": 4.6,
-    "comments": [2],
+    "comments": [
+      2
+    ],
     "parking": false,
     "equipment": true,
     "novice": true,
@@ -71,11 +87,13 @@
       "priceList": "first lesson - free, daily - 300, monthly - 1500"
     },
     "monetization": [],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   },
-
-
-
   {
     "label": "Любительская футбольная команда",
     "phone": "+79009009292",
@@ -87,9 +105,11 @@
     "shortDescription": "football",
     "owner": "sport@test.com",
     "subscribers": [],
-    "providerSubscribers": ["music@test.com"],
+    "providerSubscribers": [
+      "music@test.com"
+    ],
     "avatar": "",
-    "category": "sport",
+    "category": "sport_game",
     "website": null,
     "contacts": {
       "vk": "vk.com/sport-football-team"
@@ -121,11 +141,13 @@
         "cost": 350
       }
     ],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   },
-
-
-
   {
     "label": "Школа танцев",
     "phone": "+79009009393",
@@ -137,15 +159,17 @@
     "shortDescription": "dancing",
     "owner": "sport@test.com",
     "subscribers": [],
-    "providerSubscribers": ["music@test.com"],
+    "providerSubscribers": [
+      "music@test.com"
+    ],
     "avatar": "",
-    "category": "sport",
+    "category": "dance",
     "website": "www.sport-football.com",
     "contacts": {
       "instagram": "instagram.com/sport-dancing"
     },
     "location": "3d floor",
-    "rating": 4.0,
+    "rating": 4,
     "comments": [],
     "parking": true,
     "equipment": true,
@@ -165,11 +189,13 @@
         "cost": 1000
       }
     ],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   },
-
-
-
   {
     "label": "Игра на барабанах",
     "phone": "+79009009494",
@@ -202,11 +228,13 @@
       "priceList": "first lesson - free, daily - 400, monthly - 2000"
     },
     "monetization": [],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   },
-
-
-
   {
     "label": "Туры на Алтай",
     "phone": "+79009009595",
@@ -239,6 +267,11 @@
       "priceList": "first lesson - free, daily - 400, monthly - 2000"
     },
     "monetization": [],
-    "workTime": ["18.04.2020 18:00", "21.04.2020 15:30", "25.04.2020 18:00", "28.04.2020 15:30"]
+    "workTime": [
+      "18.04.2020 18:00",
+      "21.04.2020 15:30",
+      "25.04.2020 18:00",
+      "28.04.2020 15:30"
+    ]
   }
 ]

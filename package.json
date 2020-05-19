@@ -7,7 +7,8 @@
     "start:watch": "./tasks/start-db && ./tasks/start-watch",
     "lint": "./tasks/lint-staging",
     "lint:all": "yarn eslint server/ static/",
-    "test": "./tasks/test"
+    "test": "./tasks/test",
+    "populate": "NODE_APP_INSTANCE=secrets NODE_ENV=production ./tasks/fill-db.js"
   },
   "browserslist": [
     ">0.2%",
@@ -27,6 +28,7 @@
     "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
     "csurf": "^1.10.0",
+    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "express-error-handler": "^1.1.0",
     "express-session": "^1.17.0",
