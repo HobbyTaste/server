@@ -24,7 +24,8 @@ module.exports = (pathToFixtures) => {
                 const jsonString = JSON.stringify(jsonObj, null, 2);
                 fs.writeFile(outputFilePath, jsonString, err => {
                     if (err) {
-                        console.log('Error writing file', err)
+                        console.log('Error writing file');
+                        throw err
                     } else {
                         console.log('Successfully wrote hobbies.json')
                     }
