@@ -17,11 +17,11 @@ module.exports = (pathToFixtures) => {
     }
     return csv()
         .fromFile(csvFilePath)
-        .then((jsonObj_1) => {
-            fs.readFile(jsonFilePath, 'utf8', (err, jsonString_2) => {
-                const jsonObj_2 = JSON.parse(jsonString_2);
-                const jsonObj = jsonObj_1.concat(jsonObj_2);
-                const jsonString = JSON.stringify(jsonObj, null, 2)
+        .then((jsonObjFirst) => {
+            fs.readFile(jsonFilePath, 'utf8', (err, jsonStringSecond) => {
+                const jsonObjSecond = JSON.parse(jsonStringSecond);
+                const jsonObj = jsonObjFirst.concat(jsonObjSecond);
+                const jsonString = JSON.stringify(jsonObj, null, 2);
                 fs.writeFile(outputFilePath, jsonString, err => {
                     if (err) {
                         console.log('Error writing file', err)

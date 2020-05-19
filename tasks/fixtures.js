@@ -23,4 +23,3 @@ generateHobbies(pathToFixtures).then(() => {
 		.then(() => fixtures.load())
 		.then(() => fixtures.disconnect())
 })
-

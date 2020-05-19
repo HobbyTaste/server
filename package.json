@@ -7,7 +7,8 @@
     "start:watch": "./tasks/start-db && ./tasks/start-watch",
     "lint": "./tasks/lint-staging",
     "lint:all": "yarn eslint server/ static/",
-    "test": "./tasks/test"
+    "test": "./tasks/test",
+    "fill": "NODE_APP_INSTANCE=secrets NODE_ENV=production ./tasks/fill-db.js"
   },
   "browserslist": [
     ">0.2%",

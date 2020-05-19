@@ -1,20 +1,22 @@
 #!/usr/bin/env node
 const Fixtures = require('node-mongodb-fixtures');
-const pathToFixtures = '../server/fixtures';
-const generateHobbies = require('./gen-json');
+const pathToFixtures = './server/fixtures';
 const fixtures = new Fixtures({
     dir: pathToFixtures
 });
 
-const host = 'mongodb+srv://{dbUser}:{dbPassword}@hobbytaste-a3rpe.mongodb.net/test?retryWrites=true&w=majority';
+const config = require('config');
 const dbUser = process.argv[2];
 const dbPassword = process.argv[3];
-const dbHost = dbUser && dbPassword
-    ? host
+const generateHobbies = require('./gen-json');
+
+if (dbUser !== config.get('secrets.dbUser') || dbPassword !== config.get('secrets.dbPassword')) {
+    throw 'Wrong username or password!'
+}
+
+const dbHost = config.get('dbHost')
         .replace(/{dbUser}/, dbUser)
-        .replace(/{dbPassword}/, dbPassword)
-    : 'mongodb://localhost:27017';
-process.env.dbHost = dbHost;
+        .replace(/{dbPassword}/, dbPassword);
 
 generateHobbies(pathToFixtures).then(() => {
     fixtures
