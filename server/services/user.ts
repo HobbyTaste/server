@@ -54,6 +54,10 @@ export default class UserService {
         if (file) {
             nextData.avatar = await uploadFileToS3('users', file);
         }
+        const user = await this.User.findOne({email: nextData.email});
+        if (user) {
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
+        }
         if ('password' in nextData) {
             const salt = await bcrypt.genSalt(Number(config.get('saltWorkFactor')));
             nextData.password = await bcrypt.hash(nextData.password, salt);

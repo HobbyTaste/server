@@ -99,11 +99,16 @@ export default class ProviderService {
                 acc.concat(hobby.comments.map(commentId => ({selfId: commentId, hobbyId: hobby._id}))),
             []
         );
-        let comments = await this.Comment.find({_id: {$in: commentRelatedIds.map(Ids => Ids.selfId)}});
-        comments = comments.filter(comment => comment.author.type === Participants.user);
+        let comments = await this.Comment.find({
+            _id: {$in: commentRelatedIds.map(Ids => Ids.selfId)},
+            'author.type': Participants.user
+        });
         const commentsFilteredIds = comments.map(comment => comment._id.toString());
         const commentsInfo = await Promise.all(comments.map(comment => comment.repr()));       
-        return {commentsInfo, commentsIds: commentRelatedIds.filter(Ids => commentsFilteredIds.includes(Ids.selfId.toString()))};
+        return {
+            commentsInfo,
+            commentsIds: commentRelatedIds.filter(Ids => commentsFilteredIds.includes(Ids.selfId.toString()))
+        };
     }
 
     async HobbySubscribe(provider: IProvider, hobbyId: string) {
