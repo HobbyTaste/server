@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt');
 const {MongoClient} = require('mongodb');
-const dbHost = require('config').get('dbHost');
+const config = require('config');
+const dbHost = config.has('secrets')
+    ? config.get('dbHost')
+        .replace(/{dbUser}/, config.get('secrets.dbUser'))
+        .replace(/{dbPassword}/, config.get('secrets.dbPassword'))
+    : config.get('dbHost');
 
 const getCollection = async (name) => {
     const client = new MongoClient(dbHost, {

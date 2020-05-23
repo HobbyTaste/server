@@ -6,7 +6,7 @@ import chaiHttp from "chai-http";
 import { IHobby } from "../types/hobby";
 import { IProvider } from "../types/provider";
 import { IUser } from "../types/user";
-import hobbies from "../fixtures/hobbies.json";
+import hobbies from "../fixtures/hobbies/development.json";
 import users from "./data/users.json";
 import other_data from "./data/other.json";
 import User from "../models/user";

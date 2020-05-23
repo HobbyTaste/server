@@ -9,3 +9,4 @@ config/default-secrets.yaml
 .balancer
 server_data
 secrets.env
+/server/fixtures/hobbies.json

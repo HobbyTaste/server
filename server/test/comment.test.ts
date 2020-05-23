@@ -8,7 +8,7 @@ import { ICommentInfo } from "../types/comment";
 import comments from "../fixtures/comments.json";
 import data_comments from "./data/comments.json";
 import providers from "../fixtures/providers.json";
-import hobbies from "../fixtures/hobbies.json";
+import hobbies from "../fixtures/hobbies/development.json";
 import users from "../fixtures/users.json";
 import other_data from "./data/other.json";
 import * as utils from "./utils";

@@ -34,7 +34,7 @@ export interface ICreateCommentRequest extends Request {
 }
 
 export interface ICommentInfo {
-    id: string,
+    id: string;
     userId: string;
     name: string;
     datetime: string;
@@ -42,7 +42,7 @@ export interface ICommentInfo {
     text: string;
     evaluation?: number;
     answer?: {
-        id: string,
+        id: string;
         providerId: string;
         name: string;
         datetime: string;
