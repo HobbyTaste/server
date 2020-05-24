@@ -147,4 +147,23 @@ hobbyRouter.post('/activate', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * Загрузка аватара
+ * id хобби - параметр запроса
+ */
+hobbyRouter.post('/upload', upload.single('avatar'), async (req: Request, res: Response) => {
+    if (!req.session?.provider) {
+        res.status(HTTP_STATUS.FORBIDDEN).send('Текущий партнёр не прошел авторизацию');
+        return;
+    }
+    try {
+        const {id} = req.query;
+        await HobbyServiceInstance.AvatarUpload(id, req.file)
+        res.status(HTTP_STATUS.OK).send();
+    } catch (e) {
+        const {status, message} = processError(e);
+        res.status(status).send(message);
+    }
+});
+
 export default hobbyRouter;

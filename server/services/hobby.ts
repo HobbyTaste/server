@@ -76,4 +76,12 @@ export default class HobbyService {
         });
         return this.Hobby.findByIdAndUpdate(hobbyId, {monetization: nextMonetization})
     }
+
+    async AvatarUpload(hobbyId: string, file?: Express.Multer.File) {
+        if (!file) {
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Нет файла'}
+        }
+        const url = await uploadFileToS3('hobbies', file);
+        return this.Hobby.findByIdAndUpdate(hobbyId, {avatar: url}, {new: true});
+    }
 }
