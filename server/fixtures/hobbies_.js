@@ -28,30 +28,39 @@ module.exports = (collection) => {
                             ? commentList
                                 .filter(comment => hobby.comments.includes(comment.temp_id))
                                 .map(comment => comment._id)
-                            : []
+                            : [];
+
                         const subscribersIds = hobby.subscribers
                             ? userList
                                 .filter(user => hobby.subscribers.includes(user.email))
                                 .map(user => user._id)
-                            : []
+                            : [];
+
                         const providerSubsIds = hobby.providerSubscribers
                             ? providerList
                                 .filter(provider => hobby.providerSubscribers.includes(provider.email))
                                 .map(provider => provider._id)
-                            : []
+                            : [];
+
                         const hobbyOwnerId = hobby.owner
                             ? providerList
                                 .find(provider => hobby.owner === provider.email)
                                 ._id
                             : providerList
                                 .find(provider => 'superprovider@test.com' === provider.email)
-                                ._id
+                                ._id;
+
+                        const workTimeArray = typeof hobby.workTime === 'string'
+                            ? hobby.workTime.split(',')
+                            : hobby.workTime
+
                         return collection.updateOne(hobby, {
                             $set: {
                                 "subscribers": subscribersIds,
                                 "providerSubscribers": providerSubsIds,
                                 "owner": hobbyOwnerId,
-                                "comments": hobbyCommentsIds
+                                "comments": hobbyCommentsIds,
+                                "workTime": workTimeArray
                                 }
                             });
                     }))))))
