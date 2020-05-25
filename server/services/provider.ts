@@ -78,7 +78,7 @@ export default class ProviderService {
         const provider = await this.Provider.findOne({
             $or: [{email: nextData.email}, {name: nextData.name}, {$and: [{phone: {$exists: true}}, {phone: nextData.phone}]}]
         });
-        if (provider) {
+        if (provider && provider._id != providerId) {
             throw {status: 400, message: 'Такой пользователь уже существует'}
         }
         if ('password' in nextData) {
@@ -95,7 +95,7 @@ export default class ProviderService {
     async GetComments(provider: IProvider): Promise<IProviderCommentsInfo> {
         const hobbies = await this.GetHobbies(provider._id);
         const commentRelatedIds = hobbies.reduce(
-            (acc: ICommentRelatedIds[], hobby: IHobby) => 
+            (acc: ICommentRelatedIds[], hobby: IHobby) =>
                 acc.concat(hobby.comments.map(commentId => ({selfId: commentId, hobbyId: hobby._id}))),
             []
         );
@@ -104,7 +104,7 @@ export default class ProviderService {
             'author.type': Participants.user
         });
         const commentsFilteredIds = comments.map(comment => comment._id.toString());
-        const commentsInfo = await Promise.all(comments.map(comment => comment.repr()));       
+        const commentsInfo = await Promise.all(comments.map(comment => comment.repr()));
         return {
             commentsInfo,
             commentsIds: commentRelatedIds.filter(Ids => commentsFilteredIds.includes(Ids.selfId.toString()))

@@ -55,7 +55,7 @@ export default class UserService {
             nextData.avatar = await uploadFileToS3('users', file);
         }
         const user = await this.User.findOne({email: nextData.email});
-        if (user) {
+        if (user && user._id != userId) {
             throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if ('password' in nextData) {
