@@ -79,7 +79,7 @@ export default class ProviderService {
             $or: [{email: nextData.email}, {name: nextData.name}, {$and: [{phone: {$exists: true}}, {phone: nextData.phone}]}]
         });
         if (provider && provider._id != providerId) {
-            throw {status: 400, message: 'Такой пользователь уже существует'}
+            throw {status: HTTP_STATUS.BAD_REQUEST, message: 'Такой пользователь уже существует'}
         }
         if ('password' in nextData) {
             const salt = await bcrypt.genSalt(Number(config.get('saltWorkFactor')));
